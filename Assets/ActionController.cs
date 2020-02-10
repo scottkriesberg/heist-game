@@ -1,0 +1,31 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Valve.VR;
+using Valve.VR.InteractionSystem;
+
+public class ActionController : MonoBehaviour
+{
+    public SteamVR_Action_Vector2 walkInput;
+    public float speed = 1;
+    public float gravity = 9.81f;
+    CharacterController character;
+    // Start is called before the first frame update
+    void Start()
+    {
+        character = GetComponent<CharacterController>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Move();
+    }
+
+    void Move()
+    {
+        Vector3 direction = Player.instance.hmdTransform.TransformDirection(new Vector3(walkInput.axis.x, 0, walkInput.axis.y));
+        Vector3 movement =  Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
+        character.Move(movement - new Vector3(0, gravity, 0));
+    }
+}
