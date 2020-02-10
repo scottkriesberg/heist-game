@@ -17,11 +17,19 @@ namespace Valve.VR
     public class SteamVR_Input_ActionSet_Player : Valve.VR.SteamVR_ActionSet
     {
         
-        public virtual SteamVR_Action_Vector3 Walk
+        public virtual SteamVR_Action_Vector2 Walk
         {
             get
             {
                 return SteamVR_Actions.player_Walk;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vibration NewAction
+        {
+            get
+            {
+                return SteamVR_Actions.player_NewAction;
             }
         }
     }

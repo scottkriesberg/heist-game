@@ -105,7 +105,7 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Vector3 Walk
+        public virtual SteamVR_Action_Vector2 Walk
         {
             get
             {

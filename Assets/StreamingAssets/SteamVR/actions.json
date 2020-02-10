@@ -51,7 +51,7 @@
     },
     {
       "name": "/actions/default/in/Walk",
-      "type": "vector3"
+      "type": "vector2"
     },
     {
       "name": "/actions/default/out/Haptic",
@@ -88,8 +88,12 @@
     },
     {
       "name": "/actions/Player/in/Walk",
-      "type": "vector3",
+      "type": "vector2",
       "requirement": "suggested"
+    },
+    {
+      "name": "/actions/Player/out/NewAction",
+      "type": "vibration"
     }
   ],
   "action_sets": [
