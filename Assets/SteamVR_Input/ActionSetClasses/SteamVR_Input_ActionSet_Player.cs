@@ -25,11 +25,27 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Vibration NewAction
+        public virtual SteamVR_Action_Single ShootX
         {
             get
             {
-                return SteamVR_Actions.player_NewAction;
+                return SteamVR_Actions.player_ShootX;
+            }
+        }
+        
+        public virtual SteamVR_Action_Single ShootY
+        {
+            get
+            {
+                return SteamVR_Actions.player_ShootY;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vibration Haptic
+        {
+            get
+            {
+                return SteamVR_Actions.player_Haptic;
             }
         }
     }
