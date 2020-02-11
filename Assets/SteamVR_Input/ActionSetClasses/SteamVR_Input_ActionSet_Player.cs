@@ -25,7 +25,7 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Single ShootX
+        public virtual SteamVR_Action_Boolean ShootX
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Single ShootY
+        public virtual SteamVR_Action_Boolean ShootY
         {
             get
             {

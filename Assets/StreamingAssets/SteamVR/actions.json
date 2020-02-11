@@ -109,11 +109,11 @@
     },
     {
       "name": "/actions/Player/in/ShootX",
-      "type": "vector1"
+      "type": "boolean"
     },
     {
       "name": "/actions/Player/in/ShootY",
-      "type": "vector1"
+      "type": "boolean"
     },
     {
       "name": "/actions/Player/out/Haptic",
