@@ -6,36 +6,47 @@ using Valve.VR.InteractionSystem;
 
 public class HandAttach : MonoBehaviour
 {
-    private Interactable interactableObject;
+    private Interactable interactable;
+    public GameObject interactableObject = null;
+
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        interactableObject = GetComponent<Interactable>();
+        interactable = interactableObject.GetComponent<Interactable>();
+    }
+
+    private void Update()
+    {
+        transform.rotation = Quaternion.identity;
     }
 
     private void OnhandHoverBegin(Hand hand)
     {
+        // interactable.highlightOnHover = true;
+        // interactable.OnHandHoverBegin(hand);
         Debug.Log("Hover Begin");
     }
 
     private void OnHandHoverEnd(Hand hand)
     {
+        // interactable.highlightOnHover = false;
+        // interactable.OnHandHoverEnd(hand);
         Debug.Log("Hover End");
     }
 
     private void HandHoverUpdate(Hand hand)
     {
         GrabTypes grabType = hand.GetGrabStarting();
-        bool isGrabEnding = hand.IsGrabEnding(gameObject);
-        if (interactableObject.attachedToHand == null && grabType != GrabTypes.None)
+        bool isGrabEnding = hand.IsGrabEnding(interactableObject);
+        if (interactable.attachedToHand == null && grabType != GrabTypes.None)
         {
-            hand.AttachObject(gameObject, grabType);
-            hand.HoverLock(interactableObject);
+            hand.AttachObject(interactableObject, grabType);
+            hand.HoverLock(interactable);
         }
         else if (isGrabEnding)
         {
-            hand.DetachObject(gameObject);
-            hand.HoverUnlock(interactableObject);
+            hand.DetachObject(interactableObject);
+            hand.HoverUnlock(interactable);
         }
     }
 }
