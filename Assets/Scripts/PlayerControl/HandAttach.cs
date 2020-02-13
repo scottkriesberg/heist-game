@@ -7,12 +7,13 @@ using Valve.VR.InteractionSystem;
 public class HandAttach : MonoBehaviour
 {
     private Interactable interactable;
-    public GameObject interactableObject = null;
+    private GameObject objectInteractable;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        interactable = interactableObject.GetComponent<Interactable>();
+        objectInteractable = transform.parent.gameObject;
+        interactable = objectInteractable.GetComponent<Interactable>();
     }
 
     private void Update()
@@ -37,15 +38,15 @@ public class HandAttach : MonoBehaviour
     private void HandHoverUpdate(Hand hand)
     {
         GrabTypes grabType = hand.GetGrabStarting();
-        bool isGrabEnding = hand.IsGrabEnding(interactableObject);
+        bool isGrabEnding = hand.IsGrabEnding(objectInteractable);
         if (interactable.attachedToHand == null && grabType != GrabTypes.None)
         {
-            hand.AttachObject(interactableObject, grabType);
+            hand.AttachObject(objectInteractable, grabType);
             hand.HoverLock(interactable);
         }
         else if (isGrabEnding)
         {
-            hand.DetachObject(interactableObject);
+            hand.DetachObject(objectInteractable);
             hand.HoverUnlock(interactable);
         }
     }
