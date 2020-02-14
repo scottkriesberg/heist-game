@@ -16,22 +16,13 @@ public class HandAttach : MonoBehaviour
         interactable = objectInteractable.GetComponent<Interactable>();
     }
 
-    private void Update()
-    {
-        transform.rotation = Quaternion.identity;
-    }
-
     private void OnhandHoverBegin(Hand hand)
     {
-        // interactable.highlightOnHover = true;
-        // interactable.OnHandHoverBegin(hand);
         Debug.Log("Hover Begin");
     }
 
     private void OnHandHoverEnd(Hand hand)
     {
-        // interactable.highlightOnHover = false;
-        // interactable.OnHandHoverEnd(hand);
         Debug.Log("Hover End");
     }
 
