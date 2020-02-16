@@ -8,6 +8,7 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
+[Tt]esting/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -60,3 +61,4 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+**/Testing.meta
