@@ -28,14 +28,16 @@ public class ActionController : MonoBehaviour
     {   
         // move direction
         direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
+        // move operation
+        // Vector3 movement = inputWalk.axis.magnitude > 0.15f ? Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime : Vector3.zero;
+
         XYControl();
         ABControl();
     }
 
     // Update is called once per frame
     void FixedUpdate()
-    {   
-        // move operation
+    {
         Vector3 movement = Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
         character.Move( movement - (new Vector3(0, gravity, 0) * Time.deltaTime) );
     }
