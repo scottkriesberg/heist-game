@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/LowPoly.meta
 guid: 123fa3d440728410f9eb9eb8373650c8
+=======
+guid: 8a2065c053e1c62498946cd24e60227e
+>>>>>>> feature/Chen:Assets/Testing.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

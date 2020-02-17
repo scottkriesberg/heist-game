@@ -50,6 +50,26 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/Walk",
+      "type": "vector2"
+    },
+    {
+      "name": "/actions/default/in/X",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/Y",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/A",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/B",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -81,6 +101,23 @@
       "name": "/actions/mixedreality/in/ExternalCamera",
       "type": "pose",
       "requirement": "optional"
+    },
+    {
+      "name": "/actions/Player/in/Walk",
+      "type": "vector2",
+      "requirement": "suggested"
+    },
+    {
+      "name": "/actions/Player/in/ShootX",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/Player/in/ShootY",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/Player/out/Haptic",
+      "type": "vibration"
     }
   ],
   "action_sets": [
@@ -101,7 +138,7 @@
       "usage": "single"
     },
     {
-      "name": "/actions/NewSet",
+      "name": "/actions/Player",
       "usage": "single"
     }
   ],
@@ -169,7 +206,16 @@
       "/actions/default/out/Haptic": "Haptic",
       "/actions/platformer/in/Jump": "Jump",
       "/actions/default/in/SnapTurnLeft": "Snap Turn (Left)",
-      "/actions/default/in/SnapTurnRight": "Snap Turn (Right)"
+      "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
+      "/actions/Player/in/Walk": "Walk",
+      "/actions/default/in/Walk": "Walk",
+      "/actions/Player/out/Haptic": "Haptic",
+      "/actions/Player/in/ShootX": "ShootX",
+      "/actions/Player/in/ShootY": "ShootY",
+      "/actions/default/in/X": "X",
+      "/actions/default/in/Y": "Y",
+      "/actions/default/in/A": "A",
+      "/actions/default/in/B": "B"
     }
   ]
 }
