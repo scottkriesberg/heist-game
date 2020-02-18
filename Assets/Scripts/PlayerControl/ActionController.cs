@@ -7,7 +7,6 @@ using Valve.VR.InteractionSystem;
 public class ActionController : MonoBehaviour
 {
     public float gravity = 9.81f;
-
     public SteamVR_Action_Vector2 inputWalk;
     public SteamVR_Action_Boolean inputX;
     public SteamVR_Action_Boolean inputY;
@@ -28,9 +27,6 @@ public class ActionController : MonoBehaviour
     {   
         // move direction
         direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
-        // move operation
-        // Vector3 movement = inputWalk.axis.magnitude > 0.15f ? Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime : Vector3.zero;
-
         XYControl();
         ABControl();
     }
@@ -41,17 +37,6 @@ public class ActionController : MonoBehaviour
         Vector3 movement = Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
         character.Move( movement - (new Vector3(0, gravity, 0) * Time.deltaTime) );
     }
-
-    /*
-   // whole move operation
-   // TODO: remove the glich while moving
-    void Move()
-    {
-        Vector3 direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
-        Vector3 movement =  Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
-        character.Move(movement - new Vector3(0, gravity, 0));
-    }
-    //*/
 
     void XYControl()
     {
