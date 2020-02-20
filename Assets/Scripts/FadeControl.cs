@@ -13,9 +13,9 @@ public class FadeControl : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.tag == "Wall")
+        if (other.gameObject.tag == "Wall")
         {
             Debug.Log("touch wall");
             SteamVR_Fade.Start(Color.black, 1);
@@ -32,9 +32,9 @@ public class FadeControl : MonoBehaviour
         }
     }*/
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
-        if (other.tag == "Wall")
+        if (other.gameObject.tag == "Wall")
         {
             Debug.Log("leave the wall");
             SteamVR_Fade.Start(Color.clear, 1);
