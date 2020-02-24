@@ -55,4 +55,5 @@ public class GuardState : MonoBehaviour
             this.mState = AIState.spotted;
         }
     }
+
 }
