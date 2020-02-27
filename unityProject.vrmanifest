@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.heistgamenovrtk.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\MxR-User\\Desktop\\temp\\heist-game\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\MxR-User\\Documents\\heist-game\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "HeistGameNoVRTK [Testing]"
