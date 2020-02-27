@@ -52,7 +52,7 @@ public class ActionController : MonoBehaviour
     }
 
     private void LateUpdate()
-    {
+    {   // & CollisionFlags.CollidedBelow
         if ((character.collisionFlags & CollisionFlags.CollidedSides) != 0)
         {
             headToChar = character.transform.position - headSet.transform.position;
