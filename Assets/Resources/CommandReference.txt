@@ -1,0 +1,6 @@
+Command Reference:
+
+clear               clear the terminal
+open door #xxx      open the door number xxx      
+open xxx.xxx        open file with name xxx.xxx
+return              return to the command reference
