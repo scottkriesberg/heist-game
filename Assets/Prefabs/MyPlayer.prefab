@@ -248,7 +248,7 @@ MonoBehaviour:
   hoverSphereRadius: 0.075
   hoverLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 567
   hoverUpdateInterval: 0.1
   useControllerHoverComponent: 1
   controllerHoverComponent: tip
@@ -389,7 +389,7 @@ MonoBehaviour:
   hoverSphereRadius: 0.075
   hoverLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 567
   hoverUpdateInterval: 0.1
   useControllerHoverComponent: 1
   controllerHoverComponent: tip
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 353740256444609769}
   - component: {fileID: 353740256448400975}
   - component: {fileID: 353740256452905201}
-  m_Layer: 27
+  m_Layer: 8
   m_Name: BodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1335,7 +1335,7 @@ GameObject:
   - component: {fileID: 353740256458370745}
   - component: {fileID: 353740256446285083}
   - component: {fileID: 353740256452883585}
-  m_Layer: 26
+  m_Layer: 8
   m_Name: HeadCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
