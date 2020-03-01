@@ -66,12 +66,31 @@ public class Hacker : MonoBehaviour
                 doorCtrl.hackIntotheDoor();
 		        break;
                 */
-            case "open door #1":
+            case "ls":
+		        Terminal.WriteLine("lasers.txt    lock.txt    guard.txt");
+                Terminal.WriteLine("camera.txt    cell.txt    buttons.txt");
+		        break;
+            case "unlock door #1":
                 Terminal.WriteLine("Enter the password:");
                 currentScreen = Screen.Password;
 		        break;
-            case "open test.txt":
-                OpenFile("test");
+            case "open cell.txt":
+                OpenFile("cell");
+                break;
+            case "open buttons.txt":
+                OpenFile("buttons");
+                break;
+            case "open camera.txt":
+                OpenFile("camera");
+                break;
+            case "open guard.txt":
+                OpenFile("guard");
+                break;
+            case "open laser.txt":
+                OpenFile("laser");
+                break;
+            case "open lock.txt":
+                OpenFile("lock");
                 break;
             case "return":
                 commandText.text = CommandReference;

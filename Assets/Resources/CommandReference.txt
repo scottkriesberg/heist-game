@@ -1,6 +1,7 @@
 Command Reference:
 
-clear            clear the terminal
-return           return to command reference
-open door #xxx   open the door number xxx
-open xxx.xxx     open the file name xxx.xxx
+clear              clear the terminal
+return             return to command reference
+unlock door #xxx   open the door xxx
+ls                 list all the files
+open xxx.xxx       open the file named xxx.xxx
