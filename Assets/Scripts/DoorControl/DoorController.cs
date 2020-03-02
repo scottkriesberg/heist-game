@@ -4,13 +4,15 @@ public class DoorController : MonoBehaviour
 {
     public float mappingChangeRate = 0.4f;
     [SerializeField] private GameObject door;
+    [SerializeField] private SlidingDoor slidingDoor;
     [SerializeField] private GameObject keypad;
     [SerializeField] private string keyCard;
-    [SerializeField] public string password;
-    [SerializeField] private SlidingDoor slidingDoor;
+    [SerializeField] private bool autoClose;
+    [SerializeField] private string password; // changed to private
+    
     public Transform startPosition;
     public Transform endPosition;
-    public float openTimer = 3.0f;
+    public float openTime = 3.0f;
 
     // private string codeEntered;
     private float linearMappingValue;
@@ -25,34 +27,19 @@ public class DoorController : MonoBehaviour
 
     private void Start()
     {
-        resetTimerVariablesFlag();
+        ResetTimerVariablesFlag();
         doorTransform = door.transform;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void Update()
     {
-        if (other.tag == keyCard)
+        if (currentTime != -1) 
         {
-            currentTime = -1;
-            backCloseTime = -1;
-            keyPass = true;
-            opening = true;
-            Debug.Log("Key Enter!");
+            UpdateTimer();
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        keyPass = false;
-        Debug.Log("Key Out!");
-    }
-
-    // Update is called once per frame
-    /*void Update()
-    {
-        // SenseKeyPad();
-        ProcessDoor();
-        if (opening)
+        //SenseKeyPad();
+        //ProcessDoor();
+        /*if (opening)
         {
             if (door.transform.position == endPosition.position && !keyPass && currentTime == -1)
             {
@@ -77,10 +64,61 @@ public class DoorController : MonoBehaviour
             {
                 CloseDoorAction();
             }
-        }
-    }*/
+        }*/
+    }
 
-    void ProcessDoor()
+    // sense the key card
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == keyCard)
+        {
+            currentTime = -1;
+            backCloseTime = -1;
+            keyPass = true;
+            opening = true;
+            Debug.Log("Key Enter!");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        keyPass = false;
+        Debug.Log("Key Out!");
+    }
+
+    // check if the code match the password. if so set the openning flag; otherwise, do nothing.
+    // TODO: set up the communication
+    public void SenseKeyPad()
+    {
+        // read the entered code from the key pad
+        string codeEntered = keypad.GetComponent<ButtonAction>().getCodeEntered();
+        if (codeEntered.Equals(password))
+        {
+            this.slidingDoor.InteractWithSlidingDoor(true);
+            // timer function
+            if (autoClose)
+            {
+                this.currentTime = Time.time;
+                this.backCloseTime = currentTime + openTime;
+            }
+        } 
+    }
+
+    public bool PasswordMatchedFlag()
+    {
+        return passwordMatched;
+    }
+    
+    void ResetTimerVariablesFlag()
+    {
+        currentTime = -1;
+        backCloseTime = -1;
+        fullOpen = false;
+        opening = false;
+        passwordMatched = false;
+    }
+
+    /*void ProcessDoor()
     {
         if (opening)
         {
@@ -108,71 +146,45 @@ public class DoorController : MonoBehaviour
                 CloseDoorAction();
             }
         }
-    }
+    }*/
 
-    // check if the code match the password. if so set the openning flag; otherwise, do nothing.
-    // TODO: set up the communication
-    public void SenseKeyPad()
-    {
-        string codeEntered = keypad.GetComponent<ButtonAction>().getCodeEntered();
-        if (codeEntered.Equals(password))
-        {
-            this.slidingDoor.InteractWithSlidingDoor(true);
-            // Debug.Log("Password match!!!");
-        } 
-    }
-
-    public bool passwordMatchedFlag()
-    {
-        return passwordMatched;
-    }
-    
     // maintain the door open duration. When it is not the time to close: update the timer; otherwise reset the timer variables and flags.
-    void updateTimer()
+    void UpdateTimer()
     {
         if (currentTime < backCloseTime)
         {
             currentTime = Time.time;
-            // Debug.Log("Current time = " + currentTime + ", TimeToClose = " + backCloseTime);
-        } 
+        }
         else
         {
-            // Debug.Log("Time closed = " + currentTime + ", TimeToClose = " + backCloseTime);
-            resetTimerVariablesFlag();
+            CloseDoorAction();
+            ResetTimerVariablesFlag();
         }
     }
 
-    void resetTimerVariablesFlag()
+    /*void OpenDoorAction()
     {
-        currentTime = -1;
-        backCloseTime = -1;
-        fullOpen = false;
-        opening = false;
-        passwordMatched = false;
-    }
-
-    void OpenDoorAction()
-    {
-        doorGoTo(startPosition, endPosition);
-    }
+        DoorGoTo(startPosition, endPosition);
+    }*/
 
     void CloseDoorAction()
     {
-        doorGoTo(endPosition, startPosition);
+        // DoorGoTo(endPosition, startPosition);
+        this.slidingDoor.InteractWithSlidingDoor(false);
     }
 
-    void doorGoTo(Transform start, Transform end)
-    {
-        return;
-        if (mappingChangeRate != 0.0f)
-        {
-            Vector3 direction = end.position - start.position;
-            float length = direction.magnitude;
-            direction.Normalize();
-            Vector3 displacement = doorTransform.position - start.position;
-            linearMappingValue = Vector3.Dot(displacement, direction) / length;
-            linearMappingValue = Mathf.Clamp01(linearMappingValue + (mappingChangeRate * Time.deltaTime));
-            doorTransform.position = Vector3.Lerp(start.position, end.position, linearMappingValue);
-        }
-    }
+    /* void DoorGoTo(Transform start, Transform end)
+     {
+         return;
+         if (mappingChangeRate != 0.0f)
+         {
+             Vector3 direction = end.position - start.position;
+             float length = direction.magnitude;
+             direction.Normalize();
+             Vector3 displacement = doorTransform.position - start.position;
+             linearMappingValue = Vector3.Dot(displacement, direction) / length;
+             linearMappingValue = Mathf.Clamp01(linearMappingValue + (mappingChangeRate * Time.deltaTime));
+             doorTransform.position = Vector3.Lerp(start.position, end.position, linearMappingValue);
+         }
+     }*/
 }

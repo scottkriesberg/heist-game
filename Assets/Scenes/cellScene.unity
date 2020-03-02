@@ -412,12 +412,12 @@ PrefabInstance:
     - target: {fileID: 653354810644682149, guid: cf427c9e407275e408fd4fe4112f3052,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 653354810881494865, guid: cf427c9e407275e408fd4fe4112f3052,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 653354811963403532, guid: cf427c9e407275e408fd4fe4112f3052,
         type: 3}
@@ -502,12 +502,12 @@ PrefabInstance:
     - target: {fileID: 653354812215868875, guid: cf427c9e407275e408fd4fe4112f3052,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 653354812357840601, guid: cf427c9e407275e408fd4fe4112f3052,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf427c9e407275e408fd4fe4112f3052, type: 3}
@@ -3903,13 +3903,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mappingChangeRate: 0.4
   door: {fileID: 1322208394}
+  slidingDoor: {fileID: 1322208397}
   keypad: {fileID: 131694781}
   keyCard: KeyCard
+  autoClose: 1
   password: 12
-  slidingDoor: {fileID: 1322208397}
   startPosition: {fileID: 0}
   endPosition: {fileID: 0}
-  openTimer: 3
+  openTime: 3
 --- !u!114 &1322208397 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114224619442116174, guid: 14cfe7f307207744dbd53ff255d45aa3,
