@@ -1,0 +1,15 @@
+This prison comes with 4 unique cell types:
+
+Type 1:
+This prison cell is the smallest kind. It has one bed and no toilet. It uses a biometric activation system to prevent inmates from escaping and requires authorization from our computer system. 
+
+Type 2:
+A standard issue prison cell, this is a medium size with double beds and a toilet. Uses a combination of locks and psychological deterrents to keep prisoners inside.
+
+Type 3:
+A one bed medium sized prison cell, each one comes with a set of books and a lamp. Uses digital locks to contain inmates. It has a backup button encoding system to allow remote access to the locking mechanism. Comes with a panel, which have been known to have issues staying on the walls.
+
+Type 4:
+The largest prison cell, these are reserved for our more affluent prisoners. These come equipped with a robot butler and a personal spa. These use state of the art optional locking to make sure the prisoners stay put if they want.
+
+Type return to return to the command reference
