@@ -1,1 +1,3 @@
-Our digital locks are activated only by the digital keys the robot guards carry. Well except for the backup remote access system...
+Our digital locks are activated only by the digital keys the robot guards carry or by remote access for emergencies.
+
+Type return to return to the command reference

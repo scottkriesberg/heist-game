@@ -1,1 +1,28 @@
-Our backup remote locking system is activated by a series of buttons. Each cell comes with a unique set of buttons, which come with their own pattern of presses to enable remote locking.
+Our backup remote locking system is activated by a series of buttons. Each cell comes with a unique set of buttons, which come with their own pattern of presses to enable remote locking. 
+
+Room type 1, button order 4825:
+	Press 3, 1, 2, 4
+Room type 1, button order 2930:
+	Press 2, 1, 4, 3, 1
+Room type 1, button order 8642:
+	Press 1, 1, 2, 2, 3, 3, 4, 4
+Room type 2, button order 1479:
+	Press 4, 3, 1 , 1, 2
+Room type 2, button order 4387:
+	Press 3, 1, 3, 4, 2, 1
+Room type 2, button order 7694:
+	Press, 4, 2, 2, 1, 2, 3
+Room type 3, button order 5213:
+	Press 1, 2, 4
+Room type 3, button order 6370:
+	Press 1, 3, 2, 1
+Room type 3, button order 8364:
+	Press 4, 3, 2, 1
+Room type 4, button order 6192:
+	Press 4, 1, 2, 2, 4
+Room type 4, button order 3576:
+	Press 2, 4, 3, 2, 2, 4, 3, 1
+Room type 4, button order 9087:
+	Press 1, 1, 4, 4, 2, 3
+
+Type return to return to the command reference
