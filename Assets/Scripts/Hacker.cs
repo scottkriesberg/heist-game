@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class Hacker : MonoBehaviour
 {
-    // public DoorController doorCtrl;
+    [SerializeField]
+    private GameObject[] cellButtons;
 
     enum Screen {MainMenu, Password, Win};
 	Screen currentScreen = Screen.MainMenu;
-    string password = "12345";
+    string password = "A17";
 
     Text commandText;
     string CommandReference;
@@ -47,11 +48,12 @@ public class Hacker : MonoBehaviour
 
     void CheckPassword(string input) {
         if (input == password) {
-		    Terminal.WriteLine("Door unlocked");
+		    Terminal.WriteLine("Success!");
             currentScreen = Screen.MainMenu;
+            this.OnPasswordAccept();
 		} 
         else {
-		    Terminal.WriteLine("WRONG PASSWORD!");
+		    Terminal.WriteLine("Wrong password!");
             Terminal.WriteLine("Try again or type exit to go back");
 		}
     }
@@ -70,7 +72,7 @@ public class Hacker : MonoBehaviour
 		        Terminal.WriteLine("lasers.txt    lock.txt    guard.txt");
                 Terminal.WriteLine("camera.txt    cell.txt    buttons.txt");
 		        break;
-            case "unlock door #1":
+            case "enable_buttons":
                 Terminal.WriteLine("Enter the password:");
                 currentScreen = Screen.Password;
 		        break;
@@ -111,5 +113,13 @@ public class Hacker : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnPasswordAccept()
+    {
+        foreach (GameObject g in this.cellButtons)
+        {
+            g.SetActive(true);
+        }
     }
 }

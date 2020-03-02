@@ -1,7 +1,7 @@
 Command Reference:
 
-clear              clear the terminal
-return             return to command reference
-unlock door #xxx   open the door xxx
-ls                 list all the files
-open xxx.xxx       open the file named xxx.xxx
+clear				clear the terminal
+return				return to command reference
+enable_buttons		enable cell buttons
+ls					list all the files
+open xxx.xxx		open the file named xxx.xxx
