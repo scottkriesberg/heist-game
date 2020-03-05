@@ -65,3 +65,4 @@ crashlytics-build.properties
 **/Assets/ModularPrisonPack/
 **/Assets/ModularPrisonPack.meta
 **/unityProject.vrmanifest
+!**/Assets/ModularPrisonPack/Source/Scripts/
