@@ -987,6 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellButtons: []
+  cctvProfile: {fileID: 11400000, guid: 495990555535d9148b493740bc1bef6b, type: 2}
 --- !u!1 &5362670811506294869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1106,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6709501107478214150}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 0.99999976
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1351,7 +1352,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2471313418545954855}
   m_Direction: 2
   m_Value: 1.0000001
-  m_Size: 0.36231384
+  m_Size: 0.3623138
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -115,7 +115,7 @@ public class DoorController : MonoBehaviour
     public void SenseKeyPad()
     {
         string codeEntered = keypad.GetComponent<ButtonAction>().getCodeEntered();
-        if (codeEntered.Equals(password))
+        if (codeEntered.Equals(password) && CellConstants.buttonsUnlocked)
         {
             this.slidingDoor.InteractWithSlidingDoor(true);
             // Debug.Log("Password match!!!");

@@ -67,6 +67,7 @@ public class ButtonAction : MonoBehaviour
 
     public void PressBack()
     {
+        if (codeCurrent.Length == 0) return;
         codeCurrent.Remove(codeCurrent.Length - 1, 1);
     }
 

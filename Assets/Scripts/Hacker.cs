@@ -5,8 +5,14 @@ using UnityEngine.UI;
 
 public class Hacker : MonoBehaviour
 {
+    private static string LaserLayerName = "Laser";
+
     [SerializeField]
-    private GameObject[] cellButtons;
+    private Material[] cellButtonMats;
+    [SerializeField]
+    UnityEngine.Rendering.PostProcessing.PostProcessProfile cctvProfile;
+    [SerializeField]
+    private Camera[] cctvs;
 
     enum Screen {MainMenu, Password, Win};
 	Screen currentScreen = Screen.MainMenu;
@@ -14,6 +20,9 @@ public class Hacker : MonoBehaviour
 
     Text commandText;
     string CommandReference;
+    private int laserLayer;
+
+    private UnityEngine.Rendering.PostProcessing.ColorGrading cg;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +34,9 @@ public class Hacker : MonoBehaviour
         TextAsset txtAssets = (TextAsset)Resources.Load("CommandReference");
         CommandReference = txtAssets.text;
         commandText.text = CommandReference;
+        this.cctvProfile.TryGetSettings(out cg);
+        laserLayer = LayerMask.NameToLayer(LaserLayerName);
+        this.SetCamMode(false);
     }
 
     void Greetings() {
@@ -94,6 +106,12 @@ public class Hacker : MonoBehaviour
             case "open lock.txt":
                 OpenFile("lock");
                 break;
+            case "cam_mode inf":
+                this.SetCamMode(true);
+                break;
+            case "cam_mode norm":
+                this.SetCamMode(false);
+                break;
             case "return":
                 commandText.text = CommandReference;
                 break;
@@ -117,9 +135,20 @@ public class Hacker : MonoBehaviour
 
     void OnPasswordAccept()
     {
-        foreach (GameObject g in this.cellButtons)
+        foreach (Material m in this.cellButtonMats)
         {
-            g.SetActive(true);
+            m.SetColor("_EmissionColor", m.GetColor("_EmissionColor") * 2f);
         }
+
+        CellConstants.buttonsUnlocked = true;
+    }
+
+    void SetCamMode(bool infrared)
+    {
+        foreach (Camera cam in this.cctvs)
+        {
+            cam.cullingMask = infrared ? cam.cullingMask | (1 << this.laserLayer) : cam.cullingMask & ~(1 << this.laserLayer);
+        }
+        cg.colorFilter.value = infrared ? Color.green : Color.white;
     }
 }

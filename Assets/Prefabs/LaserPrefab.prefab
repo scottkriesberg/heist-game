@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 277862327546221164}
   - component: {fileID: 7820712140269983682}
   - component: {fileID: 405046857321925218}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: LaserPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -20,6 +20,8 @@ public class CameraControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentCameraIndex = -1;
+        if (cameras.Length == 0) return;
         cameras[0].enabled = true;
         for(int i = 1; i < cameras.Length; i++) {
             cameras[i].enabled = false;
