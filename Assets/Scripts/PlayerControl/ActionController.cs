@@ -6,31 +6,35 @@ using Valve.VR.InteractionSystem;
 
 public class ActionController : MonoBehaviour
 {
-    public float gravity = 9.81f;
+    [SerializeField] CharacterController character;
+    [SerializeField] Camera headSet;
+    [SerializeField] Player player;
 
+    public float gravityFactor = 9.81f;
     public SteamVR_Action_Vector2 inputWalk;
     public SteamVR_Action_Boolean inputX;
     public SteamVR_Action_Boolean inputY;
     public SteamVR_Action_Boolean inputA;
     public SteamVR_Action_Boolean inputB;
     public float speed = 3;
+
     private Vector3 direction;
+    private Vector3 headToChar;
+    private Vector3 charToHead;
+    private Vector3 gravity;
 
-    CharacterController character;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        character = GetComponent<CharacterController>();
-    }
 
     private void Update()
-    {   
-        // move direction
+    {
+        // Finding move direction
         direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
-        // move operation
-        // Vector3 movement = inputWalk.axis.magnitude > 0.15f ? Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime : Vector3.zero;
 
+        // Finding direction from char to head
+        charToHead = headSet.transform.position - character.transform.position;
+        // headToChar = Vector3.ProjectOnPlane(headSet.transform.position - character.transform.position, Vector3.up);
+
+        // Key Control
         XYControl();
         ABControl();
     }
@@ -39,19 +43,22 @@ public class ActionController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 movement = Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
-        character.Move( movement - (new Vector3(0, gravity, 0) * Time.deltaTime) );
+        // TODO: deal with gravity;
+        gravity = new Vector3(0, gravityFactor, 0) * Time.deltaTime;
+        player.transform.position += movement;
+        // character.Move( movement - (new Vector3(0, gravity, 0) * Time.deltaTime) );
+        // TODO: eliminate the offset
+        character.Move(charToHead);
     }
 
-    /*
-   // whole move operation
-   // TODO: remove the glich while moving
-    void Move()
-    {
-        Vector3 direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
-        Vector3 movement =  Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
-        character.Move(movement - new Vector3(0, gravity, 0));
+    private void LateUpdate()
+    {   // & CollisionFlags.CollidedBelow
+        if ((character.collisionFlags & CollisionFlags.CollidedSides) != 0)
+        {
+            headToChar = character.transform.position - headSet.transform.position;
+            player.transform.position += headToChar;
+        }
     }
-    //*/
 
     void XYControl()
     {
