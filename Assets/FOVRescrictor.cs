@@ -3,22 +3,25 @@
 public class FOVRescrictor : MonoBehaviour
 {   
     [SerializeField]
-    private Vector3 defaultSize;
+    private float maxSize;
     [SerializeField]
-    private Vector3 maxSize;
+    private float minSize;
     [SerializeField]
-    private Vector3 minSize;
+    private float maxSpeed;
+    [SerializeField]
+    private float minSpeed;
 
     private Camera head;
     private Vector3 oldPos;
     private Vector3 curPos;
     private GameObject restrictor;
+    // private Vector3 velocity;
     // Start is called before the first frame update
     void Start()
     {
         head = GetComponent<Camera>();
         restrictor = this.gameObject;
-        restrictor.transform.localScale = defaultSize;
+        restrictor.transform.localScale = new Vector3(maxSize, maxSize, maxSize);
         oldPos = transform.position;
     }
 
@@ -27,12 +30,21 @@ public class FOVRescrictor : MonoBehaviour
     {
         curPos = transform.position;
         Vector3 velocity = (curPos - oldPos) / Time.deltaTime;
-        Debug.Log("velocity = " + velocity);
+        //Debug.Log("speed = " + velocity.magnitude);
         oldPos = curPos;
+        restrictor.transform.localScale = AdjustRestrictor(velocity);
     }
     
-    private void AdjustRestrictor()
+    private Vector3 AdjustRestrictor(Vector3 velocity)
     {
-
+        float exFOV = maxSize;
+        float curSpeed = velocity.magnitude;
+        if (curSpeed > minSpeed)
+        {
+            Debug.Log(velocity.magnitude);
+            exFOV = ((maxSpeed - velocity.magnitude) / maxSpeed) * maxSize;
+        }
+        float newFOV = Mathf.Lerp(restrictor.transform.localScale[0], exFOV, 0.005f);
+        return new Vector3(newFOV, newFOV, newFOV);
     }
 }
