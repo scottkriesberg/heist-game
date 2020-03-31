@@ -2,6 +2,7 @@ Command Reference:
 
 clear				clear the terminal
 return				return to command reference
-enable_buttons		enable cell buttons
+open_panel		open the panel
+close_panel		close the panel
 ls					list all the files
 open xxx.xxx		open the file named xxx.xxx

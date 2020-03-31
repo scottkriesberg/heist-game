@@ -15,7 +15,7 @@ public class CustomAutoDoor : MonoBehaviour
     private Transform doorTransform;
     private float currentTime;
     private float backCloseTime;
-    private string hackingPassword = "Open It";
+    // private string hackingPassword = "A17";
 
     private void Start()
     {
@@ -86,6 +86,7 @@ public class CustomAutoDoor : MonoBehaviour
         }*/
     }
 
+    /*
     void Hack(string password)
     {
         if (string.Equals(password, hackingPassword))
@@ -101,17 +102,22 @@ public class CustomAutoDoor : MonoBehaviour
     {
         return hackingPassword;
     }
+    */
+
+    public void Toggle() {
+        opening = !opening;
+    }
 
     void UpdateTimer()
     {
         if (currentTime < backCloseTime)
         {
             currentTime = Time.time;
-            Debug.Log("Current time = " + currentTime + ", TimeToClose = " + backCloseTime);
+            //Debug.Log("Current time = " + currentTime + ", TimeToClose = " + backCloseTime);
         }
         else
         {
-            Debug.Log("Time closed = " + currentTime + ", TimeToClose = " + backCloseTime);
+            //Debug.Log("Time closed = " + currentTime + ", TimeToClose = " + backCloseTime);
             currentTime = -1;
             backCloseTime = -1;
             fullOpen = false;
@@ -134,7 +140,7 @@ public class CustomAutoDoor : MonoBehaviour
     {
         if (mappingChangeRate != 0.0f)
         {
-            Debug.Log(start.position + " to " + end.position);
+            //Debug.Log(start.position + " to " + end.position);
             Vector3 direction = end.position - start.position;
             float length = direction.magnitude;
             direction.Normalize();

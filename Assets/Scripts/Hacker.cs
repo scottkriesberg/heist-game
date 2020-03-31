@@ -15,11 +15,15 @@ public class Hacker : MonoBehaviour
     Text commandText;
     string CommandReference;
 
+    bool alreadyCrackPassword;
+    bool panelIsOpen;
+    CustomAutoDoor panelCtrl;
+
     // Start is called before the first frame update
     void Start()
     {
         Greetings();
-        // doorCtrl = GameObject.Find("CardSensor").GetComponent<DoorController>();
+        panelCtrl = GameObject.Find("SmallDoor").GetComponent<CustomAutoDoor>();
         commandText = GameObject.Find("CommandList/Viewport/Content/Text").GetComponent<Text>();
         
         TextAsset txtAssets = (TextAsset)Resources.Load("CommandReference");
@@ -50,6 +54,7 @@ public class Hacker : MonoBehaviour
         if (input == password) {
 		    Terminal.WriteLine("Success!");
             currentScreen = Screen.MainMenu;
+            alreadyCrackPassword = true;
             this.OnPasswordAccept();
 		} 
         else {
@@ -63,19 +68,22 @@ public class Hacker : MonoBehaviour
 		    case "clear":
 		        Terminal.ClearScreen();
 		        break;
-                /*
-            case "open the door":
-                doorCtrl.hackIntotheDoor();
-		        break;
-                */
             case "ls":
 		        Terminal.WriteLine("lasers.txt    lock.txt    guard.txt");
                 Terminal.WriteLine("camera.txt    cell.txt    buttons.txt");
 		        break;
-            case "enable_buttons":
-                Terminal.WriteLine("Enter the password:");
-                currentScreen = Screen.Password;
+            case "open_panel":
+                if(!alreadyCrackPassword) {
+                    Terminal.WriteLine("Enter the password:");
+                    currentScreen = Screen.Password;
+                }
+                else {
+                    OpenPanel();
+                }
 		        break;
+            case "close_panel":
+                ClosePanel();
+                break;
             case "open cell.txt":
                 OpenFile("cell");
                 break;
@@ -121,5 +129,20 @@ public class Hacker : MonoBehaviour
         {
             g.SetActive(true);
         }
+        OpenPanel();
+    }
+
+    void OpenPanel() {
+        if(!panelIsOpen) {
+            panelCtrl.Toggle();
+        }
+        panelIsOpen = true;
+    }
+
+    void ClosePanel() {
+        if(panelIsOpen) {
+            panelCtrl.Toggle();
+        }
+        panelIsOpen = false;
     }
 }
