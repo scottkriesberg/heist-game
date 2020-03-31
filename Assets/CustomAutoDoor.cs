@@ -15,7 +15,7 @@ public class CustomAutoDoor : MonoBehaviour
     private Transform doorTransform;
     private float currentTime;
     private float backCloseTime;
-
+    private string hackingPassword = "Open It";
 
     private void Start()
     {
@@ -28,7 +28,6 @@ public class CustomAutoDoor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Key in!");
         if (other.tag == "KeyCard")
         {
             currentTime = -1;
@@ -48,8 +47,18 @@ public class CustomAutoDoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OpenDoorAction();
         if (opening)
+        {
+            if (door.transform.position != endPosition.position)
+            {
+                OpenDoorAction();
+            }  
+        } else
+        {   
+            if (door.transform.position != startPosition.position)
+            CloseDoorAction();
+        }
+        /*if (opening)
         {
             if (door.transform.position == endPosition.position && !keyPass && currentTime == -1)
             {
@@ -65,7 +74,7 @@ public class CustomAutoDoor : MonoBehaviour
             }
             else
             {
-                updateTimer();
+                UpdateTimer();
             }
         }
         else
@@ -74,11 +83,26 @@ public class CustomAutoDoor : MonoBehaviour
             {
                 CloseDoorAction();
             }
+        }*/
+    }
+
+    void Hack(string password)
+    {
+        if (string.Equals(password, hackingPassword))
+        {
+            opening = true;
+        } else
+        {
+            opening = false;
         }
     }
 
+    string GetPassword()
+    {
+        return hackingPassword;
+    }
 
-    void updateTimer()
+    void UpdateTimer()
     {
         if (currentTime < backCloseTime)
         {

@@ -37,34 +37,6 @@ public class DoorController : MonoBehaviour
         {
             UpdateTimer();
         }
-        //SenseKeyPad();
-        //ProcessDoor();
-        /*if (opening)
-        {
-            if (door.transform.position == endPosition.position && !keyPass && currentTime == -1)
-            {
-                Debug.Log("Full Open");
-                fullOpen = true;
-                currentTime = Time.time;
-                backCloseTime = currentTime + openTimer; 
-                Debug.Log("Time Full Open = " + currentTime + ", TimeToClose = " + backCloseTime);
-            } 
-            if (!fullOpen)
-            {
-                OpenDoorAction();
-            } 
-            else
-            {
-                updateTimer();
-            }
-        } 
-        else
-        {
-           if (!keyPass)
-            {
-                CloseDoorAction();
-            }
-        }*/
     }
 
     // sense the key card
@@ -94,7 +66,7 @@ public class DoorController : MonoBehaviour
         string codeEntered = keypad.GetComponent<ButtonAction>().getCodeEntered();
         if (codeEntered.Equals(password))
         {
-            this.slidingDoor.InteractWithSlidingDoor(true);
+            OpenDoorAction();
             // timer function
             if (autoClose)
             {
@@ -118,35 +90,6 @@ public class DoorController : MonoBehaviour
         passwordMatched = false;
     }
 
-    /*void ProcessDoor()
-    {
-        if (opening)
-        {
-            if (door.transform.position == endPosition.position && !keyPass && currentTime == -1)
-            {
-                Debug.Log("Full Open");
-                fullOpen = true;
-                currentTime = Time.time;
-                backCloseTime = currentTime + openTimer;
-                Debug.Log("Time Full Open = " + currentTime + ", TimeToClose = " + backCloseTime);
-            }
-            if (!fullOpen)
-            {
-                OpenDoorAction();
-            }
-            else
-            {
-                updateTimer();
-            }
-        }
-        else
-        {
-            if (!keyPass)
-            {
-                CloseDoorAction();
-            }
-        }
-    }*/
 
     // maintain the door open duration. When it is not the time to close: update the timer; otherwise reset the timer variables and flags.
     void UpdateTimer()
@@ -162,29 +105,14 @@ public class DoorController : MonoBehaviour
         }
     }
 
-    /*void OpenDoorAction()
+    void OpenDoorAction()
     {
-        DoorGoTo(startPosition, endPosition);
-    }*/
+        this.slidingDoor.InteractWithSlidingDoor(true);
+    }
 
     void CloseDoorAction()
     {
         // DoorGoTo(endPosition, startPosition);
         this.slidingDoor.InteractWithSlidingDoor(false);
     }
-
-    /* void DoorGoTo(Transform start, Transform end)
-     {
-         return;
-         if (mappingChangeRate != 0.0f)
-         {
-             Vector3 direction = end.position - start.position;
-             float length = direction.magnitude;
-             direction.Normalize();
-             Vector3 displacement = doorTransform.position - start.position;
-             linearMappingValue = Vector3.Dot(displacement, direction) / length;
-             linearMappingValue = Mathf.Clamp01(linearMappingValue + (mappingChangeRate * Time.deltaTime));
-             doorTransform.position = Vector3.Lerp(start.position, end.position, linearMappingValue);
-         }
-     }*/
 }
