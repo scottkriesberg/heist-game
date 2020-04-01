@@ -6,8 +6,11 @@ using Valve.VR.InteractionSystem;
 
 public class ActionController : MonoBehaviour
 {
-    public float gravity = 9.81f;
+    [SerializeField] CharacterController character;
+    [SerializeField] Camera headSet;
+    [SerializeField] Player player;
 
+    public float gravityFactor = 9.81f;
     public SteamVR_Action_Vector2 inputWalk;
     public SteamVR_Action_Boolean inputX;
     public SteamVR_Action_Boolean inputY;
@@ -15,57 +18,47 @@ public class ActionController : MonoBehaviour
     public SteamVR_Action_Boolean inputB;
     public float speed = 3;
 
-    [SerializeField]
-    CharacterController character;
-    [SerializeField]
-    Transform PlayArea;
-    [SerializeField]
-    Transform Head;
+    private Vector3 direction;
+    private Vector3 headToChar;
+    private Vector3 charToHead;
+    private Vector3 gravity;
+
+
 
     private void Update()
     {
-        Vector3 charToHead = this.Head.position - this.character.transform.position;
-        charToHead = Vector3.ProjectOnPlane(charToHead, Vector3.up);
-        this.character.Move(charToHead);
+        // Finding move direction
+        direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
 
-        float headY = this.Head.position.y * 0.5f;
-        this.character.height = headY;
-        this.character.center = Vector3.up * headY * 0.5f;
+        // Finding direction from char to head
+        charToHead = headSet.transform.position - character.transform.position;
+        // headToChar = Vector3.ProjectOnPlane(headSet.transform.position - character.transform.position, Vector3.up);
 
+        // Key Control
         XYControl();
         ABControl();
-    }
-
-    private void LateUpdate()
-    {
-        if ((this.character.collisionFlags & CollisionFlags.CollidedSides) != 0)
-        {
-            Vector3 headToChar = this.character.transform.position - this.Head.position;
-            headToChar = Vector3.ProjectOnPlane(headToChar, Vector3.up);
-            if (headToChar.magnitude < 0.05f) return;
-            this.PlayArea.position += headToChar * 0.5f;
-        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        // move direction
-        Vector3 direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
         Vector3 movement = Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
-        PlayArea.transform.position += movement;
+        // TODO: deal with gravity;
+        gravity = new Vector3(0, gravityFactor, 0) * Time.deltaTime;
+        player.transform.position += movement;
+        // character.Move( movement - (new Vector3(0, gravity, 0) * Time.deltaTime) );
+        // TODO: eliminate the offset
+        character.Move(charToHead);
     }
 
-    /*
-   // whole move operation
-   // TODO: remove the glich while moving
-    void Move()
-    {
-        Vector3 direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
-        Vector3 movement =  Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
-        character.Move(movement - new Vector3(0, gravity, 0));
+    private void LateUpdate()
+    {   // & CollisionFlags.CollidedBelow
+        if ((character.collisionFlags & CollisionFlags.CollidedSides) != 0)
+        {
+            headToChar = character.transform.position - headSet.transform.position;
+            player.transform.position += headToChar;
+        }
     }
-    //*/
 
     void XYControl()
     {

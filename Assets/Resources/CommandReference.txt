@@ -1,9 +1,8 @@
 Command Reference:
 
-ls					list all the files
 clear				clear the terminal
 return				return to command reference
+open_panel		open the panel
+close_panel		close the panel
+ls					list all the files
 open xxx.xxx		open the file named xxx.xxx
-enable_buttons		enable cell buttons
-cam_mode inf		enable camera mode infrared
-cam_mode norm		enable camera mode normal

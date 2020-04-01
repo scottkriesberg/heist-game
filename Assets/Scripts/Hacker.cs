@@ -5,14 +5,8 @@ using UnityEngine.UI;
 
 public class Hacker : MonoBehaviour
 {
-    private static string LaserLayerName = "Laser";
-
     [SerializeField]
-    private Material[] cellButtonMats;
-    [SerializeField]
-    UnityEngine.Rendering.PostProcessing.PostProcessProfile cctvProfile;
-    [SerializeField]
-    private Camera[] cctvs;
+    private GameObject[] cellButtons;
 
     enum Screen {MainMenu, Password, Win};
 	Screen currentScreen = Screen.MainMenu;
@@ -20,23 +14,21 @@ public class Hacker : MonoBehaviour
 
     Text commandText;
     string CommandReference;
-    private int laserLayer;
 
-    private UnityEngine.Rendering.PostProcessing.ColorGrading cg;
+    bool alreadyCrackPassword;
+    bool panelIsOpen;
+    CustomAutoDoor panelCtrl;
 
     // Start is called before the first frame update
     void Start()
     {
         Greetings();
-        // doorCtrl = GameObject.Find("CardSensor").GetComponent<DoorController>();
+        panelCtrl = GameObject.Find("SmallDoor").GetComponent<CustomAutoDoor>();
         commandText = GameObject.Find("CommandList/Viewport/Content/Text").GetComponent<Text>();
         
         TextAsset txtAssets = (TextAsset)Resources.Load("CommandReference");
         CommandReference = txtAssets.text;
         commandText.text = CommandReference;
-        this.cctvProfile.TryGetSettings(out cg);
-        laserLayer = LayerMask.NameToLayer(LaserLayerName);
-        this.SetCamMode(false);
     }
 
     void Greetings() {
@@ -62,6 +54,7 @@ public class Hacker : MonoBehaviour
         if (input == password) {
 		    Terminal.WriteLine("Success!");
             currentScreen = Screen.MainMenu;
+            alreadyCrackPassword = true;
             this.OnPasswordAccept();
 		} 
         else {
@@ -75,19 +68,22 @@ public class Hacker : MonoBehaviour
 		    case "clear":
 		        Terminal.ClearScreen();
 		        break;
-                /*
-            case "open the door":
-                doorCtrl.hackIntotheDoor();
-		        break;
-                */
             case "ls":
 		        Terminal.WriteLine("lasers.txt    lock.txt    guard.txt");
                 Terminal.WriteLine("camera.txt    cell.txt    buttons.txt");
 		        break;
-            case "enable_buttons":
-                Terminal.WriteLine("Enter the password:");
-                currentScreen = Screen.Password;
+            case "open_panel":
+                if(!alreadyCrackPassword) {
+                    Terminal.WriteLine("Enter the password:");
+                    currentScreen = Screen.Password;
+                }
+                else {
+                    OpenPanel();
+                }
 		        break;
+            case "close_panel":
+                ClosePanel();
+                break;
             case "open cell.txt":
                 OpenFile("cell");
                 break;
@@ -105,12 +101,6 @@ public class Hacker : MonoBehaviour
                 break;
             case "open lock.txt":
                 OpenFile("lock");
-                break;
-            case "cam_mode inf":
-                this.SetCamMode(true);
-                break;
-            case "cam_mode norm":
-                this.SetCamMode(false);
                 break;
             case "return":
                 commandText.text = CommandReference;
@@ -135,20 +125,24 @@ public class Hacker : MonoBehaviour
 
     void OnPasswordAccept()
     {
-        foreach (Material m in this.cellButtonMats)
+        foreach (GameObject g in this.cellButtons)
         {
-            m.SetColor("_EmissionColor", m.GetColor("_EmissionColor") * 2f);
+            g.SetActive(true);
         }
-
-        CellConstants.buttonsUnlocked = true;
+        OpenPanel();
     }
 
-    void SetCamMode(bool infrared)
-    {
-        foreach (Camera cam in this.cctvs)
-        {
-            cam.cullingMask = infrared ? cam.cullingMask | (1 << this.laserLayer) : cam.cullingMask & ~(1 << this.laserLayer);
+    void OpenPanel() {
+        if(!panelIsOpen) {
+            panelCtrl.Toggle();
         }
-        cg.colorFilter.value = infrared ? Color.green : Color.white;
+        panelIsOpen = true;
+    }
+
+    void ClosePanel() {
+        if(panelIsOpen) {
+            panelCtrl.Toggle();
+        }
+        panelIsOpen = false;
     }
 }

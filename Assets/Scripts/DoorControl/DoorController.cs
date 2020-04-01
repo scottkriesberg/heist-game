@@ -4,13 +4,15 @@ public class DoorController : MonoBehaviour
 {
     public float mappingChangeRate = 0.4f;
     [SerializeField] private GameObject door;
+    [SerializeField] private SlidingDoor slidingDoor;
     [SerializeField] private GameObject keypad;
     [SerializeField] private string keyCard;
-    [SerializeField] public string password;
-    [SerializeField] private SlidingDoor slidingDoor;
+    [SerializeField] private bool autoClose;
+    [SerializeField] private string password; // changed to private
+    
     public Transform startPosition;
     public Transform endPosition;
-    public float openTimer = 3.0f;
+    public float openTime = 3.0f;
 
     // private string codeEntered;
     private float linearMappingValue;
@@ -25,10 +27,19 @@ public class DoorController : MonoBehaviour
 
     private void Start()
     {
-        resetTimerVariablesFlag();
+        ResetTimerVariablesFlag();
         doorTransform = door.transform;
     }
 
+    void Update()
+    {
+        if (currentTime != -1) 
+        {
+            UpdateTimer();
+        }
+    }
+
+    // sense the key card
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == keyCard)
@@ -47,102 +58,30 @@ public class DoorController : MonoBehaviour
         Debug.Log("Key Out!");
     }
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        // SenseKeyPad();
-        ProcessDoor();
-        if (opening)
-        {
-            if (door.transform.position == endPosition.position && !keyPass && currentTime == -1)
-            {
-                Debug.Log("Full Open");
-                fullOpen = true;
-                currentTime = Time.time;
-                backCloseTime = currentTime + openTimer; 
-                Debug.Log("Time Full Open = " + currentTime + ", TimeToClose = " + backCloseTime);
-            } 
-            if (!fullOpen)
-            {
-                OpenDoorAction();
-            } 
-            else
-            {
-                updateTimer();
-            }
-        } 
-        else
-        {
-           if (!keyPass)
-            {
-                CloseDoorAction();
-            }
-        }
-    }*/
-
-    void ProcessDoor()
-    {
-        if (opening)
-        {
-            if (door.transform.position == endPosition.position && !keyPass && currentTime == -1)
-            {
-                Debug.Log("Full Open");
-                fullOpen = true;
-                currentTime = Time.time;
-                backCloseTime = currentTime + openTimer;
-                Debug.Log("Time Full Open = " + currentTime + ", TimeToClose = " + backCloseTime);
-            }
-            if (!fullOpen)
-            {
-                OpenDoorAction();
-            }
-            else
-            {
-                updateTimer();
-            }
-        }
-        else
-        {
-            if (!keyPass)
-            {
-                CloseDoorAction();
-            }
-        }
-    }
-
     // check if the code match the password. if so set the openning flag; otherwise, do nothing.
     // TODO: set up the communication
     public void SenseKeyPad()
     {
+        // read the entered code from the key pad
         string codeEntered = keypad.GetComponent<ButtonAction>().getCodeEntered();
         if (codeEntered.Equals(password) && CellConstants.buttonsUnlocked)
         {
-            this.slidingDoor.InteractWithSlidingDoor(true);
-            // Debug.Log("Password match!!!");
+            OpenDoorAction();
+            // timer function
+            if (autoClose)
+            {
+                this.currentTime = Time.time;
+                this.backCloseTime = currentTime + openTime;
+            }
         } 
     }
 
-    public bool passwordMatchedFlag()
+    public bool PasswordMatchedFlag()
     {
         return passwordMatched;
     }
     
-    // maintain the door open duration. When it is not the time to close: update the timer; otherwise reset the timer variables and flags.
-    void updateTimer()
-    {
-        if (currentTime < backCloseTime)
-        {
-            currentTime = Time.time;
-            // Debug.Log("Current time = " + currentTime + ", TimeToClose = " + backCloseTime);
-        } 
-        else
-        {
-            // Debug.Log("Time closed = " + currentTime + ", TimeToClose = " + backCloseTime);
-            resetTimerVariablesFlag();
-        }
-    }
-
-    void resetTimerVariablesFlag()
+    void ResetTimerVariablesFlag()
     {
         currentTime = -1;
         backCloseTime = -1;
@@ -151,28 +90,29 @@ public class DoorController : MonoBehaviour
         passwordMatched = false;
     }
 
+
+    // maintain the door open duration. When it is not the time to close: update the timer; otherwise reset the timer variables and flags.
+    void UpdateTimer()
+    {
+        if (currentTime < backCloseTime)
+        {
+            currentTime = Time.time;
+        }
+        else
+        {
+            CloseDoorAction();
+            ResetTimerVariablesFlag();
+        }
+    }
+
     void OpenDoorAction()
     {
-        doorGoTo(startPosition, endPosition);
+        this.slidingDoor.InteractWithSlidingDoor(true);
     }
 
     void CloseDoorAction()
     {
-        doorGoTo(endPosition, startPosition);
-    }
-
-    void doorGoTo(Transform start, Transform end)
-    {
-        return;
-        if (mappingChangeRate != 0.0f)
-        {
-            Vector3 direction = end.position - start.position;
-            float length = direction.magnitude;
-            direction.Normalize();
-            Vector3 displacement = doorTransform.position - start.position;
-            linearMappingValue = Vector3.Dot(displacement, direction) / length;
-            linearMappingValue = Mathf.Clamp01(linearMappingValue + (mappingChangeRate * Time.deltaTime));
-            doorTransform.position = Vector3.Lerp(start.position, end.position, linearMappingValue);
-        }
+        // DoorGoTo(endPosition, startPosition);
+        this.slidingDoor.InteractWithSlidingDoor(false);
     }
 }

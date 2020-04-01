@@ -2,7 +2,7 @@
 
 public class ButtonAction : MonoBehaviour
 {
-    [SerializeField] DoorController beControlled;
+    [SerializeField] DoorController doorControlled;
     private string codeEntered;
     private string codeCurrent;
     
@@ -15,7 +15,7 @@ public class ButtonAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool recievedFlag = beControlled.passwordMatchedFlag();
+        bool recievedFlag = doorControlled.PasswordMatchedFlag();
         if (recievedFlag)
         {
             resetCodes();
@@ -62,7 +62,7 @@ public class ButtonAction : MonoBehaviour
         codeEntered = codeCurrent;
         codeCurrent = "";
         Debug.Log("The code entered is = " + codeEntered);
-        beControlled.SenseKeyPad();
+        doorControlled.SenseKeyPad();
     }
 
     public void PressBack()
