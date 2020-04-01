@@ -4300,6 +4300,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114224619442116174, guid: 14cfe7f307207744dbd53ff255d45aa3,
+        type: 3}
+      propertyPath: isOpen
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14cfe7f307207744dbd53ff255d45aa3, type: 3}
 --- !u!4 &1322208393 stripped
@@ -4331,7 +4336,7 @@ MonoBehaviour:
   slidingDoor: {fileID: 1322208397}
   keypad: {fileID: 131694781}
   keyCard: KeyCard
-  autoClose: 1
+  autoClose: 0
   password: 12
   startPosition: {fileID: 0}
   endPosition: {fileID: 0}
