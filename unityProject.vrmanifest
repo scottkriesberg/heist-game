@@ -5,11 +5,8 @@
       "app_key": "application.generated.unity.heistgamenovrtk.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-<<<<<<< HEAD
       "action_manifest_path": "D:\\Documents\\Unity Projects\\heist-game\\Assets\\StreamingAssets\\SteamVR\\actions.json",
-=======
       "action_manifest_path": "D:\\HeistGame\\heist-game\\Assets\\StreamingAssets\\SteamVR\\actions.json",
->>>>>>> feature/CellPanel
       "strings": {
         "en_us": {
           "name": "HeistGameNoVRTK [Testing]"
