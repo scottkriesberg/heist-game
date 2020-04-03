@@ -55,6 +55,7 @@ public class Hacker : MonoBehaviour
 		    Terminal.WriteLine("Success!");
             currentScreen = Screen.MainMenu;
             alreadyCrackPassword = true;
+            CellConstants.buttonsUnlocked = true;
             this.OnPasswordAccept();
 		} 
         else {

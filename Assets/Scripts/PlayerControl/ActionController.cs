@@ -7,8 +7,7 @@ using Valve.VR.InteractionSystem;
 public class ActionController : MonoBehaviour
 {
     [SerializeField] CharacterController character;
-    [SerializeField] Camera headSet;
-    [SerializeField] Player player;
+    [SerializeField] Transform playArea;
 
     public float gravityFactor = 9.81f;
     public SteamVR_Action_Vector2 inputWalk;
@@ -23,32 +22,24 @@ public class ActionController : MonoBehaviour
     private Vector3 charToHead;
     private Vector3 gravity;
 
-
+    private Camera headSet;
 
     private void Update()
     {
         // Finding move direction
         direction = Player.instance.hmdTransform.TransformDirection(new Vector3(inputWalk.axis.x, 0, inputWalk.axis.y));
+        direction = Vector3.ProjectOnPlane(direction, Vector3.up);
+        this.playArea.transform.position += direction * speed * Time.deltaTime;
+
 
         // Finding direction from char to head
         charToHead = headSet.transform.position - character.transform.position;
-        // headToChar = Vector3.ProjectOnPlane(headSet.transform.position - character.transform.position, Vector3.up);
+        charToHead = Vector3.ProjectOnPlane(charToHead, Vector3.up);
+        character.Move(charToHead);
 
         // Key Control
         XYControl();
         ABControl();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        Vector3 movement = Vector3.ProjectOnPlane(direction, Vector3.up) * speed * Time.deltaTime;
-        // TODO: deal with gravity;
-        gravity = new Vector3(0, gravityFactor, 0) * Time.deltaTime;
-        player.transform.position += movement;
-        // character.Move( movement - (new Vector3(0, gravity, 0) * Time.deltaTime) );
-        // TODO: eliminate the offset
-        character.Move(charToHead);
     }
 
     private void LateUpdate()
@@ -56,8 +47,16 @@ public class ActionController : MonoBehaviour
         if ((character.collisionFlags & CollisionFlags.CollidedSides) != 0)
         {
             headToChar = character.transform.position - headSet.transform.position;
-            player.transform.position += headToChar;
+            headToChar = Vector3.ProjectOnPlane(headToChar, Vector3.up);
+            this.playArea.transform.position += headToChar;
         }
+    }
+
+    private void Awake()
+    {
+        this.headSet = this.GetComponentInChildren<Camera>();
+        Debug.Assert(this.playArea != null);
+        Debug.Assert(this.headSet != null);
     }
 
     void XYControl()

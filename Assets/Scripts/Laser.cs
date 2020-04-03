@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Laser : MonoBehaviour
 {
@@ -21,8 +24,6 @@ public class Laser : MonoBehaviour
     {
         this.t = 0;
         this.moveDir = 1;
-        this.endA = this.transform.position;
-        this.endB = this.endA + (this.transform.forward * this.moveDistance);
         if (this.moveDistance != 0) this.invMoveDist = 1 / this.moveDistance;
     }
 
@@ -58,10 +59,48 @@ public class Laser : MonoBehaviour
         boxCollider.size = new Vector3(0.1f, end.y, 0.1f);
     }
 
+#if UNITY_EDITOR
+    void OnEnable()
+    {
+        SceneView.duringSceneGui += this.OnSceneGUI;
+    }
+
+    void OnDisable()
+    {
+        SceneView.duringSceneGui -= this.OnSceneGUI;
+    }
+
+    void OnSceneGUI(SceneView sv)
+    {
+        this.ResetEnds();
+    }
+
+    private void ResetEnds()
+    {
+        this.endA = this.transform.position;
+        this.endB = this.endA + (this.transform.forward * this.moveDistance);
+        return;
+    }
+
     private void OnDrawGizmos()
     {
         Vector3 start = this.transform.position;
         Vector3 end = start + (this.transform.up * this.length);
         Gizmos.DrawLine(start, end);
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (this.moveDistance <= 0) return;
+        Vector3 baseStart = this.endA;
+        Vector3 baseEnd = this.transform.position + (this.transform.up * this.length);
+        Gizmos.color = Color.blue;
+        for (int i = 0; i < 10; i++)
+        {
+            Vector3 currStart = Vector3.Lerp(baseStart, baseEnd, ((float)i) / 10f);
+            Vector3 currEnd = currStart + (this.transform.forward * this.moveDistance);
+            Gizmos.DrawLine(currStart, currEnd);
+        }
+    }
+#endif
 }
