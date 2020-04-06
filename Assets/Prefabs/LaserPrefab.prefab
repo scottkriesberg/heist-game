@@ -49,6 +49,8 @@ MonoBehaviour:
   length: 2.85
   moveDistance: 0
   moveSpeed: 0
+  endA: {x: 0, y: 0, z: 0}
+  endB: {x: 0, y: 0, z: 0}
 --- !u!120 &7820712140269983682
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -154,7 +156,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284357905143153389}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 2.85, z: 0.1}

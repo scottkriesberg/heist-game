@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    public static CameraControl instance;
+
     public Camera[] cameras;
     private int currentCameraIndex;
 
@@ -34,5 +36,10 @@ public class CameraControl : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 }
