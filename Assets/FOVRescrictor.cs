@@ -44,7 +44,7 @@ public class FOVRescrictor : MonoBehaviour
             Debug.Log(velocity.magnitude);
             exFOV = ((maxSpeed - velocity.magnitude) / maxSpeed) * maxSize;
         }
-        float newFOV = Mathf.Lerp(restrictor.transform.localScale[0], exFOV, 0.005f);
+        float newFOV = Mathf.Lerp(restrictor.transform.localScale[0], exFOV, 0.001f);
         return new Vector3(newFOV, newFOV, newFOV);
     }
 }
