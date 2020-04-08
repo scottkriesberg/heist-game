@@ -31,11 +31,21 @@ public class GuardState : MonoBehaviour
 
     }
 
+    public void PauseGuard()
+    {
+        this.mState = AIState.rest;
+    }
+
+    public void WakeGuard()
+    {
+        this.mState = AIState.normal;
+    }
+
     public GuardSight guardSight;
     // Start is called before the first frame update
     void Start()
     {
-        this.mState = AIState.rest;
+        this.mState = AIState.normal;
         guardSight = GetComponent<GuardSight>();
     }
 
