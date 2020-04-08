@@ -2,7 +2,9 @@ Command Reference:
 
 clear				clear the terminal
 return				return to command reference
-open_panel		open the panel
-close_panel		close the panel
+cam_mode inf		set infrared camera mode
+cam_mode norm		set normal camera mode
+open_panel			open the panel
+close_panel			close the panel
 ls					list all the files
 open xxx.xxx		open the file named xxx.xxx

@@ -23,7 +23,7 @@ public class Hacker : MonoBehaviour
     void Start()
     {
         Greetings();
-        panelCtrl = GameObject.Find("SmallDoor").GetComponent<CustomAutoDoor>();
+        panelCtrl = GameObject.Find("SmallDoor")?.GetComponent<CustomAutoDoor>();
         commandText = GameObject.Find("CommandList/Viewport/Content/Text").GetComponent<Text>();
         
         TextAsset txtAssets = (TextAsset)Resources.Load("CommandReference");
@@ -106,6 +106,12 @@ public class Hacker : MonoBehaviour
             case "return":
                 commandText.text = CommandReference;
                 break;
+            case "cam_mode norm":
+                GameManager.Instance.SetCameraMode(false);
+                break;
+            case "cam_mode inf":
+                GameManager.Instance.SetCameraMode(true);
+                break;
 		    default:
 		        Terminal.WriteLine("Invalid command");
 		        break;
@@ -134,6 +140,7 @@ public class Hacker : MonoBehaviour
     }
 
     void OpenPanel() {
+        if (panelCtrl == null) return;
         if(!panelIsOpen) {
             panelCtrl.Toggle();
         }
@@ -141,7 +148,8 @@ public class Hacker : MonoBehaviour
     }
 
     void ClosePanel() {
-        if(panelIsOpen) {
+        if (panelCtrl == null) return;
+        if (panelIsOpen) {
             panelCtrl.Toggle();
         }
         panelIsOpen = false;

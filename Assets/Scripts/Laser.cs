@@ -1,23 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 public class Laser : MonoBehaviour
 {
     [SerializeField] [Range(0, 15f)]
     float length;
-    [SerializeField] [Range(0, 150f)]
-    float moveDistance;
     [SerializeField] [Range(0, 20f)]
+    float moveDistance;
+    [SerializeField] [Range(0, 10f)]
     float moveSpeed;
+    [SerializeField] [HideInInspector]
+    private Vector3 endA;
+    [SerializeField] [HideInInspector]
+    private Vector3 endB;
 
     private float t;
     private float moveDir;
-    private Vector3 endA;
-    private Vector3 endB;
     private float invMoveDist;
 
     private void Start()
@@ -59,29 +59,6 @@ public class Laser : MonoBehaviour
         boxCollider.size = new Vector3(0.1f, end.y, 0.1f);
     }
 
-#if UNITY_EDITOR
-    void OnEnable()
-    {
-        SceneView.duringSceneGui += this.OnSceneGUI;
-    }
-
-    void OnDisable()
-    {
-        SceneView.duringSceneGui -= this.OnSceneGUI;
-    }
-
-    void OnSceneGUI(SceneView sv)
-    {
-        this.ResetEnds();
-    }
-
-    private void ResetEnds()
-    {
-        this.endA = this.transform.position;
-        this.endB = this.endA + (this.transform.forward * this.moveDistance);
-        return;
-    }
-
     private void OnDrawGizmos()
     {
         Vector3 start = this.transform.position;
@@ -93,7 +70,7 @@ public class Laser : MonoBehaviour
     {
         if (this.moveDistance <= 0) return;
         Vector3 baseStart = this.endA;
-        Vector3 baseEnd = this.transform.position + (this.transform.up * this.length);
+        Vector3 baseEnd = this.endA + (this.transform.up * this.length);
         Gizmos.color = Color.blue;
         for (int i = 0; i < 10; i++)
         {
@@ -102,5 +79,4 @@ public class Laser : MonoBehaviour
             Gizmos.DrawLine(currStart, currEnd);
         }
     }
-#endif
 }

@@ -49,6 +49,8 @@ MonoBehaviour:
   length: 2.85
   moveDistance: 0
   moveSpeed: 0
+  endA: {x: 0, y: 0, z: 0}
+  endB: {x: 0, y: 0, z: 0}
 --- !u!120 &7820712140269983682
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -154,7 +156,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284357905143153389}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 2.85, z: 0.1}
@@ -183,13 +185,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5384942510357407737}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.06130789, y: 0.023841482, z: -0.13447194, w: 0.9887316}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3336689659188740364}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.334, y: 1.771, z: -15.376}
 --- !u!82 &8177177513704480743
 AudioSource:
   m_ObjectHideFlags: 0
@@ -209,7 +211,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0.67
   MinDistance: 1
   MaxDistance: 2
   Pan2D: 0
