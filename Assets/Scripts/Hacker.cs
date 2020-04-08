@@ -18,12 +18,16 @@ public class Hacker : MonoBehaviour
     bool alreadyCrackPassword;
     bool panelIsOpen;
     CustomAutoDoor panelCtrl;
+    GuardState guardCtrl1;
+    GuardState guardCtrl2;
 
     // Start is called before the first frame update
     void Start()
     {
         Greetings();
         panelCtrl = GameObject.Find("SmallDoor")?.GetComponent<CustomAutoDoor>();
+        guardCtrl1 = GameObject.Find("Guard1")?.GetComponent<GuardState>();
+        guardCtrl2 = GameObject.Find("Guard2")?.GetComponent<GuardState>();
         commandText = GameObject.Find("CommandList/Viewport/Content/Text").GetComponent<Text>();
         
         TextAsset txtAssets = (TextAsset)Resources.Load("CommandReference");
@@ -84,6 +88,9 @@ public class Hacker : MonoBehaviour
 		        break;
             case "close_panel":
                 ClosePanel();
+                break;
+            case "pause_guard":
+                PauseGuard();
                 break;
             case "open cell.txt":
                 OpenFile("cell");
@@ -153,5 +160,22 @@ public class Hacker : MonoBehaviour
             panelCtrl.Toggle();
         }
         panelIsOpen = false;
+    }
+
+    void PauseGuard() {
+        float seconds = Random.Range(3.0f, 7.0f); 
+        guardCtrl1.PauseGuard();
+        guardCtrl2.PauseGuard();
+        StartCoroutine(WaitFor(seconds));
+    }
+
+    IEnumerator WaitFor(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        guardCtrl1.WakeGuard();
+        guardCtrl2.WakeGuard();
+    }
+
+    public bool IsPanelOpen() {
+        return panelIsOpen;
     }
 }
