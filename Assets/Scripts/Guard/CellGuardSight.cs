@@ -11,7 +11,7 @@ public class CellGuardSight : MonoBehaviour
 
     private GameObject player;
     private SphereCollider Col;
-    private GuardState guardState;
+    private CellGuardState guardState;
 
     private Vector3 toPlayer;
 
