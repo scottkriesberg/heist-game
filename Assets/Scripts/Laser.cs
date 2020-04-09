@@ -79,4 +79,12 @@ public class Laser : MonoBehaviour
             Gizmos.DrawLine(currStart, currEnd);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            GameManager.Instance.CauseDeath("You died from a laser", "laserScene");
+        }
+    }
 }

@@ -33,9 +33,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PostProcessProfile camProfile;
     [SerializeField]
-    private Transform playerPrefab;
+    private ActionController playerPrefab;
 
-    public Transform currPlayer;
+    public ActionController currPlayer;
+    private string reasonOfLoss = "NULL";
+    private string sceneToLoad;
     
     private void Awake()
     {
@@ -49,8 +51,32 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         laserLayer = LayerMask.NameToLayer("Laser");
 
-        SceneManager.sceneLoaded += (a, b) => this.SetCameraMode(false);
+        if (this.currPlayer == null)
+        {
+            this.currPlayer = GameObject.Instantiate(this.playerPrefab);
+            this.camera = currPlayer.GetComponentInChildren<Camera>();
+            this.fovVolume = currPlayer.GetComponentInChildren<PostProcessVolume>();
+            DontDestroyOnLoad(this.currPlayer.gameObject);
+        }
+
+        SceneManager.sceneLoaded += this.OnSceneLoad;
     }
+
+    private void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        this.SetCameraMode(false);
+        if (this.reasonOfLoss != "NULL")
+        {
+            this.SetPlayerStatusText(this.reasonOfLoss);
+            this.reasonOfLoss = "NULL";
+        }
+    }
+
+    private void SetPlayerStatusText(string text)
+    {
+        this.currPlayer.GetComponent<ActionController>().playerUI.statusText.text = text;
+    }
+
     void Update()
     {
         FOVRestrict();
@@ -58,19 +84,13 @@ public class GameManager : MonoBehaviour
 
     public void RegisterSpawnPoint(PlayerSpawnPoint point)
     {
-        if (this.currPlayer == null)
-        {
-            this.currPlayer = GameObject.Instantiate(this.playerPrefab);
-            DontDestroyOnLoad(this.currPlayer.gameObject);
-        }
+        Debug.Log("setting pos");
 
-        this.currPlayer.position = point.transform.position;
-        this.currPlayer.rotation = point.transform.rotation;
+        this.currPlayer.playArea.position = point.transform.position;
+        this.currPlayer.playArea.rotation = point.transform.rotation;
 
         // find the camera
-        this.camera = currPlayer.GetComponentInChildren<Camera>();
-        this.fovVolume = currPlayer.GetComponentInChildren<PostProcessVolume>();
-        fovVolume.isGlobal = true;
+        //fovVolume.isGlobal = true;
     }
 
     public void SetCameraMode(bool infrared)
@@ -88,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     void FOVRestrict()
     {
+        if (this.fovProfile == null) return;
         Vignette FOV = null;
         this.fovProfile.TryGetSettings<Vignette>(out FOV);
         AdjustRestrictor(FOV);
@@ -106,5 +127,11 @@ public class GameManager : MonoBehaviour
             exFOV = Mathf.Max((velocity.magnitude * fovChangeRate / maxSpeed) * maxFOV, this.minFOV);
         }
         FOV.intensity.value = Mathf.Lerp(FOV.intensity.value, exFOV, 0.005f);
+    }
+
+    public void CauseDeath(string reason, string sceneToLoad)
+    {
+        this.reasonOfLoss = reason;
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

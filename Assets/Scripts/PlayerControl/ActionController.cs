@@ -7,7 +7,9 @@ using Valve.VR.InteractionSystem;
 public class ActionController : MonoBehaviour
 {
     [SerializeField] CharacterController character;
-    [SerializeField] Transform playArea;
+    public Transform playArea;
+
+    public PlayerUI playerUI;
 
     public float gravityFactor = 9.81f;
     public SteamVR_Action_Vector2 inputWalk;
@@ -34,7 +36,7 @@ public class ActionController : MonoBehaviour
 
         // Finding direction from char to head
         charToHead = headSet.transform.position - character.transform.position;
-        charToHead = Vector3.ProjectOnPlane(charToHead, Vector3.up);
+        //charToHead = Vector3.ProjectOnPlane(charToHead, Vector3.up);
         character.Move(charToHead);
 
         // Key Control

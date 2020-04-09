@@ -12,7 +12,7 @@ public class PlayerWin : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            SceneManager.LoadSceneAsync(this.SceneToLoadOnWind);
+            GameManager.Instance.CauseDeath("You win", this.SceneToLoadOnWind);
         }
     }
 }
