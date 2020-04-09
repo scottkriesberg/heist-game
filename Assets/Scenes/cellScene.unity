@@ -7238,6 +7238,17 @@ PrefabInstance:
       propertyPath: currPlayer
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6752192288264851348, guid: abff4d5a95eb6794eaa49148183c0e76,
+        type: 3}
+      propertyPath: fovProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ce4f71fefda2be4aaee074813ef0c72,
+        type: 2}
+    - target: {fileID: 6752192288264851348, guid: abff4d5a95eb6794eaa49148183c0e76,
+        type: 3}
+      propertyPath: fovChangeRate
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7540506004108557165, guid: abff4d5a95eb6794eaa49148183c0e76,
         type: 3}
       propertyPath: m_Name
