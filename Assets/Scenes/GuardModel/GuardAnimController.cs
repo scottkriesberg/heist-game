@@ -7,27 +7,28 @@ public class GuardAnimController : MonoBehaviour
     [SerializeField]
     private Animator anim;
 
-    private float cur;
-    private float prev;
-    private bool walk;
+    private Vector3 oldPos;
+    private Vector3 curPos;
+    private bool isWalking;
 
     // Start is called before the first frame update
     void Start()
     {
-        walk = true;
-        prev = Time.time;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        cur = Time.time;
-        if (cur - prev >= 5)
+        curPos = this.transform.position;
+        Vector3 velocity = (curPos - oldPos) / Time.deltaTime;
+        oldPos = curPos;
+        if (velocity.magnitude > 3)
         {
-            Debug.Log(walk);
-            walk = !walk;
-            prev = cur;
+            anim.SetBool("isWalking", true);
+        } else
+        {
+            anim.SetBool("isWalking", false);
         }
-        anim.SetBool("isWalking", walk);
     }
 }
