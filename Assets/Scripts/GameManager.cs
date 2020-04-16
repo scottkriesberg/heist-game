@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private PostProcessProfile fovProfile;
     [SerializeField]
     private MyScene[] scenes; // 0 = cell, 1 = laser, 2 = guard
-    [SerializeField]
+    [SerializeField] [Range(0, 2)]
     private int firstSceneToLoad = -1;
 
     private int currLoadedScene = -1;

@@ -52,6 +52,7 @@ public class HackerTimerControl : MonoBehaviour
     }
 
     void TimeIsUp() {
+        GameManager.Instance.CauseDeath("You ran out of time", 0);
         Debug.Log("You lose");
     }
 }
