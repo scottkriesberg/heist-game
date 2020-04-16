@@ -47,7 +47,7 @@ public class controlVig : MonoBehaviour
         float curSpeed = velocity.magnitude;
         if (curSpeed < maxSpeed)
         {
-            Debug.Log("curSpeed = " + curSpeed);
+            // Debug.Log("curSpeed = " + curSpeed);
             
             exFOV = (velocity.magnitude * FOVChangeRate / maxSpeed) * maxFOV;
             // Debug.Log(e)
