@@ -264,6 +264,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5877917584430828044, guid: 5e1ac73dcb31f5545b62421557c7f295,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e1ac73dcb31f5545b62421557c7f295, type: 3}
 --- !u!114 &1476414557 stripped
@@ -363,7 +368,7 @@ PrefabInstance:
     - target: {fileID: 6752192288264851348, guid: abff4d5a95eb6794eaa49148183c0e76,
         type: 3}
       propertyPath: firstSceneToLoad
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7540506004108557165, guid: abff4d5a95eb6794eaa49148183c0e76,
         type: 3}
@@ -398,6 +403,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 905617655105384053, guid: b4ab7d219b523b44c8276c0a1160d78e,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 905617655559391179, guid: b4ab7d219b523b44c8276c0a1160d78e,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1362980888662693101, guid: b4ab7d219b523b44c8276c0a1160d78e,
         type: 3}

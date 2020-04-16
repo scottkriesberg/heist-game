@@ -97,6 +97,7 @@ MonoBehaviour:
     actionPath: /actions/default/in/B
     needsReinit: 0
   speed: 1
+  noClip: 0
 --- !u!114 &248794340145266698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,7 +286,12 @@ PrefabInstance:
     - target: {fileID: 353740256457833399, guid: 4d280890705861f45b22859d850f58fc,
         type: 3}
       propertyPath: m_TargetDisplay
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 353740256457833399, guid: 4d280890705861f45b22859d850f58fc,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 10551
       objectReference: {fileID: 0}
     - target: {fileID: 353740256458285269, guid: 4d280890705861f45b22859d850f58fc,
         type: 3}
