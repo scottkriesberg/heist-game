@@ -51,6 +51,7 @@ public class CellGuardSight : MonoBehaviour
 
         Debug.Log("GOT YOU");
         playerInSight = true;
+        GameManager.Instance.CauseDeath("You got caught by guard", 0);
     }
 
     private void OnTriggerEnter(Collider other)
