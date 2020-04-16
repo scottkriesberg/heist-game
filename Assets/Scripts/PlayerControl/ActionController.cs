@@ -6,7 +6,7 @@ using Valve.VR.InteractionSystem;
 
 public class ActionController : MonoBehaviour
 {
-    [SerializeField] CharacterController character;
+    public CharacterController character;
     public Transform playArea;
 
     public PlayerUI playerUI;
@@ -25,6 +25,7 @@ public class ActionController : MonoBehaviour
     private Vector3 gravity;
 
     private Camera headSet;
+    public bool noClip = false;
 
     private void Update()
     {
@@ -46,7 +47,7 @@ public class ActionController : MonoBehaviour
 
     private void LateUpdate()
     {   // & CollisionFlags.CollidedBelow
-        if ((character.collisionFlags & CollisionFlags.CollidedSides) != 0)
+        if (!this.noClip && (character.collisionFlags & CollisionFlags.CollidedSides) != 0)
         {
             headToChar = character.transform.position - headSet.transform.position;
             headToChar = Vector3.ProjectOnPlane(headToChar, Vector3.up);

@@ -43,7 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2a1865d78442648a0ff885a2341006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fovChangeRate: 3
+  maxSpeed: 1.2
+  minSpeed: 0.8
+  maxFOV: 0.8
+  minFOV: 0.3
+  fovProfile: {fileID: 11400000, guid: 9ce4f71fefda2be4aaee074813ef0c72, type: 2}
+  scenes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  firstSceneToLoad: 0
   camProfile: {fileID: 11400000, guid: 495990555535d9148b493740bc1bef6b, type: 2}
-  playerPrefab: {fileID: 1452972690411637427, guid: cc0e05409f6941540a340cfd51cd1f11,
+  playerPrefab: {fileID: 5092341820865562717, guid: cc0e05409f6941540a340cfd51cd1f11,
     type: 3}
   currPlayer: {fileID: 0}

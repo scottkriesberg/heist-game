@@ -21,9 +21,16 @@ public class GameManager : MonoBehaviour
     private float minFOV = 0.3f;
     [SerializeField]
     private PostProcessProfile fovProfile;
+    [SerializeField]
+    private MyScene[] scenes; // 0 = cell, 1 = laser, 2 = guard
+    [SerializeField]
+    private int firstSceneToLoad = -1;
+
+    private int currLoadedScene = -1;
+
     private Vector3 oldPos;
     private Vector3 curPos;
-    private Camera camera;
+    private Camera playerCamera;
     private PostProcessVolume fovVolume;
 
     // .........................
@@ -38,6 +45,9 @@ public class GameManager : MonoBehaviour
     public ActionController currPlayer;
     private string reasonOfLoss = "NULL";
     private string sceneToLoad;
+
+    private Coroutine playerTextRoutine;
+    private Coroutine playerPlaceCoroutine;
     
     private void Awake()
     {
@@ -54,22 +64,41 @@ public class GameManager : MonoBehaviour
         if (this.currPlayer == null)
         {
             this.currPlayer = GameObject.Instantiate(this.playerPrefab);
-            this.camera = currPlayer.GetComponentInChildren<Camera>();
+            this.playerCamera = currPlayer.GetComponentInChildren<Camera>();
             this.fovVolume = currPlayer.GetComponentInChildren<PostProcessVolume>();
             DontDestroyOnLoad(this.currPlayer.gameObject);
         }
 
-        SceneManager.sceneLoaded += this.OnSceneLoad;
+        foreach (MyScene scene in this.scenes)
+        {
+            scene.gameObject.SetActive(false);
+        }
     }
 
-    private void OnSceneLoad(Scene scene, LoadSceneMode loadSceneMode)
+    private void Start()
     {
-        this.SetCameraMode(false);
-        if (this.reasonOfLoss != "NULL")
+        if (this.firstSceneToLoad > -1)
         {
-            this.SetPlayerStatusText(this.reasonOfLoss);
-            this.reasonOfLoss = "NULL";
+            this.LoadScene(this.firstSceneToLoad);
         }
+    }
+
+    private bool LoadScene(int i)
+    {
+        if (i < 0 || i > this.scenes.Length - 1) return false;
+
+        if (this.currLoadedScene > -1 && this.currLoadedScene < this.scenes.Length)
+        {
+            this.scenes[this.currLoadedScene].OnUnload();
+            this.scenes[this.currLoadedScene].gameObject.SetActive(false);
+        }
+
+        this.scenes[i].gameObject.SetActive(true);
+        this.scenes[i].OnLoad();
+
+        this.currLoadedScene = i;
+
+        return true;
     }
 
     private void SetPlayerStatusText(string text)
@@ -86,8 +115,15 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("setting pos");
 
-        this.currPlayer.playArea.position = point.transform.position;
+        Vector3 playAreaToPlayer = this.playerCamera.transform.position - this.currPlayer.playArea.position;
+        playAreaToPlayer = Vector3.ProjectOnPlane(playAreaToPlayer, Vector3.up);
+
+        if (this.playerPlaceCoroutine != null) this.StopCoroutine(this.playerPlaceCoroutine);
+        this.currPlayer.noClip = true;
+        this.currPlayer.playArea.position = point.transform.position - playAreaToPlayer;
         this.currPlayer.playArea.rotation = point.transform.rotation;
+        this.currPlayer.character.transform.position = point.transform.position;
+        this.StartCoroutine(this.ResetPlayerClipping());
 
         // find the camera
         //fovVolume.isGlobal = true;
@@ -116,7 +152,7 @@ public class GameManager : MonoBehaviour
 
     private void AdjustRestrictor(Vignette FOV)
     {
-        curPos = camera.transform.position;
+        curPos = playerCamera.transform.position;
         Vector3 velocity = (curPos - oldPos) / Time.deltaTime;
         oldPos = curPos;
         float exFOV = maxFOV;
@@ -129,9 +165,25 @@ public class GameManager : MonoBehaviour
         FOV.intensity.value = Mathf.Lerp(FOV.intensity.value, exFOV, 0.005f);
     }
 
-    public void CauseDeath(string reason, string sceneToLoad)
+    public void CauseDeath(string reason, int sceneToLoad)
     {
-        this.reasonOfLoss = reason;
-        SceneManager.LoadScene(sceneToLoad);
+        if (this.playerTextRoutine != null) this.StopCoroutine(this.playerTextRoutine);
+        this.SetPlayerStatusText(reason);
+        this.playerTextRoutine = this.StartCoroutine(this.ResetPlayerText());
+        this.LoadScene(sceneToLoad);
+    }
+
+    private IEnumerator ResetPlayerText()
+    {
+        yield return new WaitForSeconds(5);
+        this.SetPlayerStatusText("");
+        yield return null;
+    }
+
+    private IEnumerator ResetPlayerClipping()
+    {
+        yield return new WaitForSeconds(1);
+        this.currPlayer.noClip = false;
+        yield return null;
     }
 }

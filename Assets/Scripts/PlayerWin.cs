@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerWin : MonoBehaviour
 {
     [SerializeField]
-    private string SceneToLoadOnWind;
+    private int SceneToLoadOnWind;
 
     private void OnTriggerEnter(Collider other)
     {

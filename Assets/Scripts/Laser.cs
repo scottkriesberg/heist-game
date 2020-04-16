@@ -84,7 +84,7 @@ public class Laser : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            GameManager.Instance.CauseDeath("You died from a laser", "laserScene");
+            GameManager.Instance.CauseDeath("You died from a laser", 1);
         }
     }
 }

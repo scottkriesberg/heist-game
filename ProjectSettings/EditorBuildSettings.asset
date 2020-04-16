@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/cellScene.unity
+    path: Assets/Scenes/BaseScene.unity
     guid: 46bf9b9643cdd534290a2b52b9cefc24
   - enabled: 1
     path: Assets/Scenes/laserScene.unity
