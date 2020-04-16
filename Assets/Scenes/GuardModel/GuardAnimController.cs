@@ -23,7 +23,7 @@ public class GuardAnimController : MonoBehaviour
         curPos = this.transform.position;
         Vector3 velocity = (curPos - oldPos) / Time.deltaTime;
         oldPos = curPos;
-        if (velocity.magnitude > 3)
+        if (velocity.magnitude > 0)
         {
             anim.SetBool("isWalking", true);
         } else
