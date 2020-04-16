@@ -101,6 +101,11 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    public Camera GetPlayerCamera()
+    {
+        return this.playerCamera;
+    }
+
     private void SetPlayerStatusText(string text)
     {
         this.currPlayer.GetComponent<ActionController>().playerUI.statusText.text = text;
