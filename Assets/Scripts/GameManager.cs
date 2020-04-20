@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour
 
     private Coroutine playerTextRoutine;
     private Coroutine playerPlaceCoroutine;
+    private Coroutine loadSceneRoutine;
+
+    public int CurrScene { get => this.currLoadedScene; }
     
     private void Awake()
     {
@@ -71,7 +74,7 @@ public class GameManager : MonoBehaviour
 
         foreach (MyScene scene in this.scenes)
         {
-            scene.gameObject.SetActive(false);
+            if (scene.gameObject.activeSelf) scene.gameObject.SetActive(false);
         }
     }
 
@@ -79,26 +82,33 @@ public class GameManager : MonoBehaviour
     {
         if (this.firstSceneToLoad > -1)
         {
-            this.LoadScene(this.firstSceneToLoad);
+            this.loadSceneRoutine = this.StartCoroutine(this.LoadScene(this.firstSceneToLoad, 0f));
         }
     }
 
-    private bool LoadScene(int i)
+    private IEnumerator LoadScene(int i, float delay)
     {
-        if (i < 0 || i > this.scenes.Length - 1) return false;
+        yield return new WaitForSeconds(delay);
 
-        if (this.currLoadedScene > -1 && this.currLoadedScene < this.scenes.Length)
+        if (i >= 0 && i < this.scenes.Length)
         {
-            this.scenes[this.currLoadedScene].OnUnload();
-            this.scenes[this.currLoadedScene].gameObject.SetActive(false);
+            // todo: fade to black
+
+            // unload current
+            if (this.currLoadedScene > -1 && this.currLoadedScene < this.scenes.Length)
+            {
+                this.scenes[this.currLoadedScene].OnUnload();
+                this.scenes[this.currLoadedScene].gameObject.SetActive(false);
+            }
+
+            // load new
+            this.scenes[i].gameObject.SetActive(true);
+            this.scenes[i].OnLoad();
+
+            this.currLoadedScene = i;
         }
 
-        this.scenes[i].gameObject.SetActive(true);
-        this.scenes[i].OnLoad();
-
-        this.currLoadedScene = i;
-
-        return true;
+        yield return null;
     }
 
     public Camera GetPlayerCamera()
@@ -164,24 +174,26 @@ public class GameManager : MonoBehaviour
         float curSpeed = velocity.magnitude;
         if (curSpeed < maxSpeed)
         {
-            Debug.Log("curSpeed = " + curSpeed);
+            //Debug.Log("curSpeed = " + curSpeed);
             exFOV = Mathf.Max((velocity.magnitude * fovChangeRate / maxSpeed) * maxFOV, this.minFOV);
         }
         FOV.intensity.value = Mathf.Lerp(FOV.intensity.value, exFOV, 0.005f);
     }
 
-    public void CauseDeath(string reason, int sceneToLoad)
+    public void CauseDeath(string reason, int sceneToLoad, float delay = 0f)
     {
         if (this.playerTextRoutine != null) this.StopCoroutine(this.playerTextRoutine);
         this.SetPlayerStatusText(reason);
         this.playerTextRoutine = this.StartCoroutine(this.ResetPlayerText());
-        this.LoadScene(sceneToLoad);
+
+        if (this.loadSceneRoutine != null) this.StopCoroutine(this.loadSceneRoutine);
+        this.loadSceneRoutine = this.StartCoroutine(this.LoadScene(sceneToLoad, delay));
     }
 
     private IEnumerator ResetPlayerText()
     {
-        yield return new WaitForSeconds(5);
-        this.SetPlayerStatusText("");
+        yield return new WaitForSeconds(10f);
+        this.SetPlayerStatusText("status");
         yield return null;
     }
 

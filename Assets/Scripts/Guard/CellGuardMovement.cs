@@ -20,6 +20,14 @@ public class CellGuardMovement : MonoBehaviour
 
     }
 
+    public void Reset()
+    {
+        this.direction = 1;
+        this.wayPointIndex = 0;
+        this.transform.position = this.patrolWayPoints[this.wayPointIndex].position;
+        this.GetComponent<CellGuardState>().mState = CellGuardState.AIState.normal;
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -11,13 +11,22 @@ public class GuardMovement : MonoBehaviour
     private int direction = 1;
     private GuardState guardState;
     private int wayPointIndex;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        guardState = GetComponent<GuardState>();
+        this.audioSource = this.GetComponent<AudioSource>();
+        this.guardState = this.GetComponent<GuardState>();
         wayPointIndex = 0;
 
+    }
+
+    public void Reset()
+    {
+        this.direction = 1;
+        this.wayPointIndex = 0;
+        this.transform.position = this.patrolWayPoints[this.wayPointIndex].position;
     }
 
     // Update is called once per frame
@@ -38,5 +47,7 @@ public class GuardMovement : MonoBehaviour
                 transform.LookAt(patrolWayPoints[wayPointIndex]);
             }
         }
+
+        this.audioSource.volume = this.guardState.mState == GuardState.AIState.normal && this.moveSpeed > 0 ? 0.1f : 0f;
     }
 }

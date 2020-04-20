@@ -105,12 +105,12 @@ public class DoorController : MonoBehaviour
         }
     }
 
-    void OpenDoorAction()
+    public void OpenDoorAction()
     {
         this.slidingDoor.InteractWithSlidingDoor(true);
     }
 
-    void CloseDoorAction()
+    public void CloseDoorAction()
     {
         // DoorGoTo(endPosition, startPosition);
         this.slidingDoor.InteractWithSlidingDoor(false);

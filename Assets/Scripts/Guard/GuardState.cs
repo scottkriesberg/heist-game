@@ -52,15 +52,7 @@ public class GuardState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            this.mState = AIState.rest;
-        }
-        else if (Input.GetKey(KeyCode.Alpha2))
-        {
-            this.mState = AIState.normal;
-        }
-        else if (Input.GetKey(KeyCode.Alpha3) || guardSight.playerInSight)
+        if (guardSight.playerInSight)
         {
             this.mState = AIState.spotted;
         }

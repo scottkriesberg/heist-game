@@ -15,7 +15,7 @@ public class Hacker : MonoBehaviour
     Text commandText;
     string CommandReference;
 
-    bool alreadyCrackPassword;
+    public bool alreadyCrackPassword;
     bool panelIsOpen;
     CustomAutoDoor panelCtrl;
     GuardState guardCtrl1;
@@ -154,7 +154,7 @@ public class Hacker : MonoBehaviour
         panelIsOpen = true;
     }
 
-    void ClosePanel() {
+    public void ClosePanel() {
         if (panelCtrl == null) return;
         if (panelIsOpen) {
             panelCtrl.Toggle();

@@ -14,7 +14,6 @@ public class CellGuardSight : MonoBehaviour
     private CellGuardState guardState;
 
     private Vector3 toPlayer;
-
     Hacker panelCheck;
 
     // Start is called before the first frame update
@@ -28,6 +27,7 @@ public class CellGuardSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         toPlayer = player.transform.position - transform.position;
         float angle = Vector3.Angle(toPlayer.normalized, transform.forward);
         //Debug.Log(angle);
@@ -44,23 +44,12 @@ public class CellGuardSight : MonoBehaviour
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, toPlayer.normalized, out hit, 100f))
+        if (Physics.Raycast(this.transform.position, toPlayer.normalized, out hit, 100f, ~0, QueryTriggerInteraction.Ignore))
         {
             if (hit.collider.gameObject != player) return;
         }
 
-        Debug.Log("GOT YOU");
         playerInSight = true;
-        GameManager.Instance.CauseDeath("You got caught by guard", 0);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //playerInSight = true;
-        if (other.gameObject == player)
-        {
-            
-        }
     }
 
     private void OnDrawGizmos()

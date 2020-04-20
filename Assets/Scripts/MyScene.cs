@@ -13,5 +13,8 @@ public class MyScene : MonoBehaviour
         GameManager.Instance.SetCameraMode(false);
     }
 
-    public virtual void OnUnload() { }
+    public virtual void OnUnload()
+    {
+        Alarm.Instance.StopAlarm();
+    }
 }

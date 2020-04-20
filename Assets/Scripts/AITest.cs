@@ -40,17 +40,5 @@ public class AITest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            this.mState = AIState.good;
-        }
-        else if (Input.GetKey(KeyCode.Alpha2))
-        {
-            this.mState = AIState.medium;
-        }
-        else if (Input.GetKey(KeyCode.Alpha3))
-        {
-            this.mState = AIState.bad;
-        }
     }
 }
