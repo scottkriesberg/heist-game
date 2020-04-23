@@ -8,4 +8,4 @@ open_panel			open the panel
 close_panel			close the panel
 ls					list all the files
 open xxx.xxx		open the file named xxx.xxx
-pause_guard		pause the guards for a random time between 3-6 seconds
+pause_guard			pause the guards for a random time between 3-6 seconds

@@ -21,9 +21,12 @@ public class Hacker : MonoBehaviour
     GuardState guardCtrl1;
     GuardState guardCtrl2;
 
+    Scrollbar scrollbar;
+
     // Start is called before the first frame update
     void Start()
     {
+        // Debug.Log(GameManager.Instance.CurrScene);
         Greetings();
         panelCtrl = GameObject.Find("SmallDoor")?.GetComponent<CustomAutoDoor>();
         guardCtrl1 = GameObject.Find("Guard1")?.GetComponent<GuardState>();
@@ -33,6 +36,9 @@ public class Hacker : MonoBehaviour
         TextAsset txtAssets = (TextAsset)Resources.Load("CommandReference");
         CommandReference = txtAssets.text;
         commandText.text = CommandReference;
+
+        scrollbar = GameObject.Find("CommandList/Scrollbar Vertical").GetComponent<Scrollbar>();
+        scrollbar.value = 1;
     }
 
     void Greetings() {
@@ -112,6 +118,7 @@ public class Hacker : MonoBehaviour
                 break;
             case "return":
                 commandText.text = CommandReference;
+                scrollbar.value = 1;
                 break;
             case "cam_mode norm":
                 GameManager.Instance.SetCameraMode(false);
@@ -129,6 +136,7 @@ public class Hacker : MonoBehaviour
         TextAsset txtAssets = (TextAsset)Resources.Load(name);
         string txtContents = txtAssets.text;
         commandText.text = txtContents;
+        scrollbar.value = 1;
     }
 
     // Update is called once per frame
@@ -163,6 +171,7 @@ public class Hacker : MonoBehaviour
     }
 
     void PauseGuard() {
+        if(guardCtrl1 == null || guardCtrl2 == null) return;
         float seconds = Random.Range(3.0f, 7.0f); 
         guardCtrl1.PauseGuard();
         guardCtrl2.PauseGuard();
