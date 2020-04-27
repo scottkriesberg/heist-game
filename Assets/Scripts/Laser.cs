@@ -5,6 +5,8 @@ using UnityEditor;
 
 public class Laser : MonoBehaviour
 {
+    public static bool PlayerDied = false;
+
     [SerializeField] [Range(0, 15f)]
     float length;
     [SerializeField] [Range(0, 20f)]
@@ -82,9 +84,10 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !PlayerDied)
         {
-            GameManager.Instance.CauseDeath("You died from a laser", 1);
+            Alarm.Instance.StartAlarm("You touched a laser!");
+            PlayerDied = true;
         }
     }
 }

@@ -11,33 +11,26 @@ public class Alarm : MonoBehaviour
     [SerializeField]
     private float alarmVolume;
     [SerializeField]
-    private Light[] lights;
-    [SerializeField]
     private AudioSource alarmSource;
     private bool alarmOn;
+
+    public Light[] lights { get; set; } = null;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
-    {
-        this.alarmOn = true;
-        this.StopAlarm();
-    }
-
     private void Update()
     {
-        if (!this.alarmOn) return;
+        if (!this.alarmOn || this.lights == null) return;
 
         foreach (Light light in this.lights) light.color = Color.Lerp(Color.red, Color.black, Mathf.PingPong((Time.timeSinceLevelLoad - 0.1f) * this.flashFreq, 1f));
     }
 
     public void StartAlarm(string reason = "")
     {
-        if (this.alarmOn) return;
-        GameManager.Instance.CauseDeath(reason, GameManager.Instance.CurrScene, 5f);
+        GameManager.Instance.LevelFailed(reason);
         this.alarmOn = true;
         foreach (Light light in this.lights) light.enabled = true;
         this.alarmSource.volume = this.alarmVolume;
@@ -45,7 +38,6 @@ public class Alarm : MonoBehaviour
 
     public void StopAlarm()
     {
-        if (!this.alarmOn) return;
         this.alarmOn = false;
         foreach (Light light in this.lights) light.enabled = false;
         this.alarmSource.volume = 0f;

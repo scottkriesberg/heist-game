@@ -14,7 +14,7 @@ public class GuardMovement : MonoBehaviour
     private AudioSource audioSource;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         this.audioSource = this.GetComponent<AudioSource>();
         this.guardState = this.GetComponent<GuardState>();
@@ -27,6 +27,8 @@ public class GuardMovement : MonoBehaviour
         this.direction = 1;
         this.wayPointIndex = 0;
         this.transform.position = this.patrolWayPoints[this.wayPointIndex].position;
+        this.guardState.mState = GuardState.AIState.normal;
+        this.guardState.Caught = false;
     }
 
     // Update is called once per frame
@@ -48,6 +50,7 @@ public class GuardMovement : MonoBehaviour
             }
         }
 
+        if (this.audioSource == null) return;
         this.audioSource.volume = this.guardState.mState == GuardState.AIState.normal && this.moveSpeed > 0 ? 0.1f : 0f;
     }
 }

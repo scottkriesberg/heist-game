@@ -11,11 +11,6 @@ public class CellLoad : MyScene
     [SerializeField]
     private DoorController cellDoor;
 
-    public override void OnLoad()
-    {
-        base.OnLoad();
-    }
-
     public override void OnUnload()
     {
         base.OnUnload();

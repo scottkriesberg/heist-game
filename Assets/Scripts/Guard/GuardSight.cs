@@ -36,8 +36,9 @@ public class GuardSight : MonoBehaviour
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, toPlayer.normalized, out hit, 100f))
+        if (Physics.Raycast(this.transform.position, toPlayer.normalized, out hit, 100f, 1 << GameManager.PlayerLayer))
         {
+            Debug.Log(hit.collider.gameObject.name);
             if (hit.collider.gameObject != player) return;
         }
 

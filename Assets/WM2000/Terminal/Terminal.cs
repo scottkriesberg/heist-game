@@ -10,7 +10,7 @@ public class Terminal : MonoBehaviour
 
     private void Awake()
     {
-        if (primaryTerminal == null) { primaryTerminal = this; } // Be the one
+        primaryTerminal = this; // Be the one
         inputBuffer = new InputBuffer();
         displayBuffer = new DisplayBuffer(inputBuffer);
         inputBuffer.onCommandSent += NotifyCommandHandlers;

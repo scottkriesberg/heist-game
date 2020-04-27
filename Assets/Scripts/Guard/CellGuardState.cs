@@ -31,6 +31,8 @@ public class CellGuardState : MonoBehaviour
 
     }
 
+    public bool Caught { get; set; } = false;
+
     public void PauseGuard()
     {
         this.mState = AIState.rest;
@@ -52,10 +54,11 @@ public class CellGuardState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (guardSight.playerInSight)
+        if (guardSight.playerInSight && !this.Caught && GuardState.GlobalToggle)
         {
             this.mState = AIState.spotted;
-            Alarm.Instance.StartAlarm("A Guard saw you hacking into the panel");
+            this.Caught = true;
+            Alarm.Instance.StartAlarm("A Guard saw you hacking into the panel!");
         }
     }
 

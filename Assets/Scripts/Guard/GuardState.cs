@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GuardState : MonoBehaviour
 {
+    public static bool GlobalToggle = false;
+
     public enum AIState
     {
         rest,
@@ -23,13 +25,15 @@ public class GuardState : MonoBehaviour
             return _state;
         }
 
-        private set
+        set
         {
             _state = value;
             mMat.color = value == AIState.spotted ? Color.red : value == AIState.normal ? Color.yellow : Color.green;
         }
 
     }
+
+    public bool Caught { get; set; } = false;
 
     public void PauseGuard()
     {
@@ -52,9 +56,11 @@ public class GuardState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (guardSight.playerInSight)
+        if (guardSight.playerInSight && !this.Caught && GuardState.GlobalToggle)
         {
             this.mState = AIState.spotted;
+            this.Caught = true;
+            Alarm.Instance.StartAlarm("A Guard caught you trying to escape");
         }
     }
 

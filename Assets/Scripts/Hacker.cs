@@ -7,6 +7,8 @@ public class Hacker : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] cellButtons;
+    [SerializeField]
+    private ScrollRect referenceScrollView;
 
     enum Screen {MainMenu, Password, Win};
 	Screen currentScreen = Screen.MainMenu;
@@ -37,8 +39,7 @@ public class Hacker : MonoBehaviour
         CommandReference = txtAssets.text;
         commandText.text = CommandReference;
 
-        scrollbar = GameObject.Find("CommandList/Scrollbar Vertical").GetComponent<Scrollbar>();
-        scrollbar.value = 1;
+        this.referenceScrollView.content.localPosition = Vector3.zero;
     }
 
     void Greetings() {
@@ -118,7 +119,7 @@ public class Hacker : MonoBehaviour
                 break;
             case "return":
                 commandText.text = CommandReference;
-                scrollbar.value = 1;
+                this.referenceScrollView.content.localPosition = Vector3.zero;
                 break;
             case "cam_mode norm":
                 GameManager.Instance.SetCameraMode(false);
@@ -136,7 +137,7 @@ public class Hacker : MonoBehaviour
         TextAsset txtAssets = (TextAsset)Resources.Load(name);
         string txtContents = txtAssets.text;
         commandText.text = txtContents;
-        scrollbar.value = 1;
+        this.referenceScrollView.content.localPosition = Vector3.zero;
     }
 
     // Update is called once per frame

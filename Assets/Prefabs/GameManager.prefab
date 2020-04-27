@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovChangeRate: 3
   maxSpeed: 3
-  minSpeed: 0.5
+  minSpeed: 0
   maxFOV: 0
   minFOV: 0
   fovProfile: {fileID: 11400000, guid: 9ce4f71fefda2be4aaee074813ef0c72, type: 2}
@@ -74,9 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashFreq: 2
   alarmVolume: 1
-  lights:
-  - {fileID: 0}
-  - {fileID: 0}
   alarmSource: {fileID: 301373423}
 --- !u!82 &301373423
 AudioSource:

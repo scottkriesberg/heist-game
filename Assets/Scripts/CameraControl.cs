@@ -6,7 +6,7 @@ public class CameraControl : MonoBehaviour
 {
     public static CameraControl instance;
 
-    public Camera[] cameras;
+    public Camera[] cameras = new Camera[0];
     private int currentCameraIndex;
 
     public void SwitchCamera(int cameraID) {

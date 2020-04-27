@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.SceneManagement;
-using Valve.VR;
-using Valve.VR.InteractionSystem;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static int PlayerLayer;
+    public static bool CurrFailed = false;
+
     // For FOV
     [SerializeField]
     private float fovChangeRate = 3.0f;
@@ -22,9 +23,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PostProcessProfile fovProfile;
     [SerializeField]
-    private MyScene[] scenes; // 0 = cell, 1 = laser, 2 = guard
-    [SerializeField] [Range(0, 2)]
-    private int firstSceneToLoad = -1;
+    private MyScene[] scenes; // 0 = status scene, 1 = cell, 2 = laser, 3 = guard
+    [SerializeField]
+    private TMPro.TextMeshPro playerStatusText;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI playerStatusTextUI;
+    [SerializeField]
+    private Button[] levelButtons;
 
     private int currLoadedScene = -1;
 
@@ -46,9 +51,8 @@ public class GameManager : MonoBehaviour
     private string reasonOfLoss = "NULL";
     private string sceneToLoad;
 
-    private Coroutine playerTextRoutine;
     private Coroutine playerPlaceCoroutine;
-    private Coroutine loadSceneRoutine;
+    private Coroutine levelSwitchRoutine;
 
     public int CurrScene { get => this.currLoadedScene; }
     
@@ -60,6 +64,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        PlayerLayer = LayerMask.NameToLayer("Player");
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
         laserLayer = LayerMask.NameToLayer("Laser");
@@ -71,54 +76,46 @@ public class GameManager : MonoBehaviour
             this.fovVolume = currPlayer.GetComponentInChildren<PostProcessVolume>();
             DontDestroyOnLoad(this.currPlayer.gameObject);
         }
-
-        foreach (MyScene scene in this.scenes)
-        {
-            if (scene.gameObject.activeSelf) scene.gameObject.SetActive(false);
-        }
     }
 
     private void Start()
     {
-        if (this.firstSceneToLoad > -1)
+        foreach (MyScene scene in this.scenes)
         {
-            this.loadSceneRoutine = this.StartCoroutine(this.LoadScene(this.firstSceneToLoad, 0f));
+            if (scene.gameObject.activeSelf) scene.gameObject.SetActive(false);
         }
+
+        PlayerPrefs.SetInt("maxAvailableLevel", 1);
+        this.levelSwitchRoutine = this.StartCoroutine(this.SwitchLevelRoutine("Welcome To PrisonBreakVR", 0));
     }
 
-    private IEnumerator LoadScene(int i, float delay)
+    private void UnloadCurrScene()
     {
-        yield return new WaitForSeconds(delay);
+        if (this.currLoadedScene < 0 || this.currLoadedScene >= this.scenes.Length) return;
 
-        if (i >= 0 && i < this.scenes.Length)
-        {
-            // todo: fade to black
+        this.scenes[this.currLoadedScene].OnUnload();
+        this.scenes[this.currLoadedScene].gameObject.SetActive(false);
+    }
 
-            // unload current
-            if (this.currLoadedScene > -1 && this.currLoadedScene < this.scenes.Length)
-            {
-                this.scenes[this.currLoadedScene].OnUnload();
-                this.scenes[this.currLoadedScene].gameObject.SetActive(false);
-            }
+    private void LoadScene(int i)
+    {
+        if (i < 0 || i >= this.scenes.Length) return;
 
-            // load new
-            this.scenes[i].gameObject.SetActive(true);
-            this.scenes[i].OnLoad();
+        this.scenes[i].gameObject.SetActive(true);
+        this.scenes[i].OnLoad();
 
-            this.currLoadedScene = i;
-        }
+        this.currLoadedScene = i;
+    }
 
-        yield return null;
+    public void StartLevelClicked(int level)
+    {
+        if (this.levelSwitchRoutine != null) this.StopCoroutine(this.levelSwitchRoutine);
+        this.levelSwitchRoutine = this.StartCoroutine(this.SwitchLevelRoutine("Welcome To PrisonBreakVR", level));
     }
 
     public Camera GetPlayerCamera()
     {
         return this.playerCamera;
-    }
-
-    private void SetPlayerStatusText(string text)
-    {
-        this.currPlayer.GetComponent<ActionController>().playerUI.statusText.text = text;
     }
 
     void Update()
@@ -149,12 +146,19 @@ public class GameManager : MonoBehaviour
         ColorGrading cg = null;
         this.camProfile.TryGetSettings<ColorGrading>(out cg);
         cg.colorFilter.value = infrared ? Color.green : Color.white;
-        
+
+        if (CameraControl.instance == null) return;
+
         foreach (Camera cam in CameraControl.instance.cameras)
         {
             if (infrared) cam.cullingMask = cam.cullingMask | (1 << laserLayer);
             else cam.cullingMask = cam.cullingMask & (~0 ^ (1 << laserLayer));
         }
+    }
+
+    public void SetPlayerHeadSmall(bool isSmall)
+    {
+        this.currPlayer.character.radius = isSmall ? 0.075f : 0.15f;
     }
 
     void FOVRestrict()
@@ -163,6 +167,12 @@ public class GameManager : MonoBehaviour
         Vignette FOV = null;
         this.fovProfile.TryGetSettings<Vignette>(out FOV);
         AdjustRestrictor(FOV);
+    }
+
+    private void SetPlayerStatusText(string text)
+    {
+        this.playerStatusText.text = text;
+        this.playerStatusTextUI.text = text;
     }
 
     private void AdjustRestrictor(Vignette FOV)
@@ -180,27 +190,83 @@ public class GameManager : MonoBehaviour
         FOV.intensity.value = Mathf.Lerp(FOV.intensity.value, exFOV, 0.005f);
     }
 
-    public void CauseDeath(string reason, int sceneToLoad, float delay = 0f)
+    public void LevelFailed(string reason)
     {
-        if (this.playerTextRoutine != null) this.StopCoroutine(this.playerTextRoutine);
-        this.SetPlayerStatusText(reason);
-        this.playerTextRoutine = this.StartCoroutine(this.ResetPlayerText());
-
-        if (this.loadSceneRoutine != null) this.StopCoroutine(this.loadSceneRoutine);
-        this.loadSceneRoutine = this.StartCoroutine(this.LoadScene(sceneToLoad, delay));
+        CurrFailed = true;
+        this.levelSwitchRoutine = this.StartCoroutine(this.SwitchLevelRoutine(reason, 0, 3f));
     }
 
-    private IEnumerator ResetPlayerText()
+    public void LevelPassed(string passText)
     {
-        yield return new WaitForSeconds(10f);
-        this.SetPlayerStatusText("status");
-        yield return null;
+        if (CurrFailed) return;
+
+        PlayerPrefs.SetInt("maxAvailableLevel", this.currLoadedScene + 1);
+        GuardState.GlobalToggle = false;
+        this.levelSwitchRoutine = this.StartCoroutine(this.SwitchLevelRoutine(passText, 0));
     }
 
     private IEnumerator ResetPlayerClipping()
     {
         yield return new WaitForSeconds(1);
         this.currPlayer.noClip = false;
+        yield return null;
+    }
+
+    private IEnumerator SwitchLevelRoutine(string welcomeText, int sceneToLoad, float delay = 0f)
+    {
+        bool isWaitScene = sceneToLoad == 0;
+        const float invFadeTime = 1/2f;
+        const float waitBlackTime = 2f;
+
+        ColorGrading cg = null;
+        this.fovProfile.TryGetSettings<ColorGrading>(out cg);
+        cg.colorFilter.value = Color.white;
+
+        if (delay > 0f) yield return new WaitForSeconds(delay);
+
+        // fade to black
+        {
+            float t = 0f;
+            while (t <= 1f)
+            {
+                cg.colorFilter.value = Color.Lerp(Color.white, Color.black, t);
+                t += Time.deltaTime * invFadeTime;
+                yield return new WaitForEndOfFrame();
+            }
+
+            cg.colorFilter.value = Color.black;
+        }
+
+        // switch scenes
+        this.UnloadCurrScene();
+        this.LoadScene(sceneToLoad);
+
+        this.SetPlayerStatusText(welcomeText);
+        if (isWaitScene)
+        {
+            int maxAvailableLevel = PlayerPrefs.GetInt("maxAvailableLevel");
+            for (int i = 0; i < this.levelButtons.Length; i++)
+            {
+                this.levelButtons[i].interactable = i < maxAvailableLevel;
+            }
+        }
+
+        // wait in black screen
+        if (waitBlackTime > 0) yield return new WaitForSeconds(waitBlackTime);
+
+        // fade in
+        {
+            float t = 0f;
+            while (t <= 1f)
+            {
+                cg.colorFilter.value = Color.Lerp(Color.black, Color.white, t);
+                t += Time.deltaTime * invFadeTime * 2f;
+                yield return new WaitForEndOfFrame();
+            }
+
+            cg.colorFilter.value = Color.white;
+        }
+
         yield return null;
     }
 }

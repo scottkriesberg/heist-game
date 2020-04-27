@@ -11,9 +11,8 @@ public class CellGuardMovement : MonoBehaviour
     private int direction = 1;
     private CellGuardState guardState;
     private int wayPointIndex;
-
-    // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
         guardState = GetComponent<CellGuardState>();
         wayPointIndex = 0;
@@ -25,7 +24,8 @@ public class CellGuardMovement : MonoBehaviour
         this.direction = 1;
         this.wayPointIndex = 0;
         this.transform.position = this.patrolWayPoints[this.wayPointIndex].position;
-        this.GetComponent<CellGuardState>().mState = CellGuardState.AIState.normal;
+        this.guardState.mState = CellGuardState.AIState.normal;
+        this.guardState.Caught = false;
     }
 
     // Update is called once per frame
