@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
             if (scene.gameObject.activeSelf) scene.gameObject.SetActive(false);
         }
 
-        PlayerPrefs.SetInt("maxAvailableLevel", 1);
+        PlayerPrefs.SetInt("maxAvailableLevel", 3);
         this.levelSwitchRoutine = this.StartCoroutine(this.SwitchLevelRoutine("Welcome To PrisonBreakVR", 0));
     }
 
@@ -125,20 +125,26 @@ public class GameManager : MonoBehaviour
 
     public void RegisterSpawnPoint(PlayerSpawnPoint point)
     {
-        Debug.Log("setting pos");
+        if (this.playerPlaceCoroutine != null) this.StopCoroutine(this.playerPlaceCoroutine);
+        this.playerPlaceCoroutine = this.StartCoroutine(this.PlacePlayer(point));
+    }
+
+    private IEnumerator PlacePlayer(PlayerSpawnPoint point)
+    {
+        this.currPlayer.noClip = true;
+        this.currPlayer.VRIK.enabled = false;
 
         Vector3 playAreaToPlayer = this.playerCamera.transform.position - this.currPlayer.playArea.position;
         playAreaToPlayer = Vector3.ProjectOnPlane(playAreaToPlayer, Vector3.up);
-
-        if (this.playerPlaceCoroutine != null) this.StopCoroutine(this.playerPlaceCoroutine);
-        this.currPlayer.noClip = true;
         this.currPlayer.playArea.position = point.transform.position - playAreaToPlayer;
         this.currPlayer.playArea.rotation = point.transform.rotation;
         this.currPlayer.character.transform.position = point.transform.position;
-        this.StartCoroutine(this.ResetPlayerClipping());
+        this.currPlayer.VRIK.transform.position = point.transform.position;
 
-        // find the camera
-        //fovVolume.isGlobal = true;
+        yield return new WaitForEndOfFrame();
+
+        this.currPlayer.noClip = false;
+        this.currPlayer.VRIK.enabled = true;
     }
 
     public void SetCameraMode(bool infrared)
@@ -199,17 +205,9 @@ public class GameManager : MonoBehaviour
     public void LevelPassed(string passText)
     {
         if (CurrFailed) return;
-
-        PlayerPrefs.SetInt("maxAvailableLevel", this.currLoadedScene + 1);
+        
         GuardState.GlobalToggle = false;
         this.levelSwitchRoutine = this.StartCoroutine(this.SwitchLevelRoutine(passText, 0));
-    }
-
-    private IEnumerator ResetPlayerClipping()
-    {
-        yield return new WaitForSeconds(1);
-        this.currPlayer.noClip = false;
-        yield return null;
     }
 
     private IEnumerator SwitchLevelRoutine(string welcomeText, int sceneToLoad, float delay = 0f)

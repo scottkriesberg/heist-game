@@ -2767,6 +2767,7 @@ MonoBehaviour:
   - {fileID: 2993027454666381699}
   - {fileID: 6374948250059607600}
   - {fileID: 5201003973983852523}
+  hacker: {fileID: 0}
   guards:
   - {fileID: 905617655105384053}
   - {fileID: 905617655559391179}
@@ -14853,7 +14854,7 @@ PrefabInstance:
     - target: {fileID: 9006009707737889691, guid: f3325aee867be5849860feb8acc49a53,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00006613778
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 9103979758899994513, guid: f3325aee867be5849860feb8acc49a53,
         type: 3}

@@ -5,8 +5,6 @@ using UnityEngine;
 public class CellLoad : MyScene
 {
     [SerializeField]
-    private Hacker hacker;
-    [SerializeField]
     private CellGuardMovement[] guards;
     [SerializeField]
     private DoorController cellDoor;

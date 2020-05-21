@@ -7,20 +7,18 @@ public class Watch : MonoBehaviour
     private static float enableSourceDot = 0.35f;
     private static float enablePipesStartDot = 0.45f;
     private static float enablePipesEndDot = 0.55f;
-    private static float enableCanvasDot = 0.545f;
+    private static float enableCanvasDot = 0.45f;
     private static float[] enableTextDots = { 0.6f, 0.65f, 0.675f, 0.7f, 0.75f };
     private static float enableStatusDot = 0.8f;
 
     [SerializeField]
     private Material sourceLightMat;
     [SerializeField]
-    private GameObject[] pipes;
+    private GameObject cone;
     [SerializeField]
     private GameObject mainCanvas;
     [SerializeField]
     private GameObject[] timerTexts;
-    [SerializeField]
-    private GameObject statusText;
     [SerializeField]
     private Transform watchForwardTransform;
 
@@ -40,19 +38,14 @@ public class Watch : MonoBehaviour
         float dot = Vector3.Dot(this.watchForwardTransform.forward, this.playerCamTransform.forward);
         this.sourceLightMat.SetColor("_EmissionColor", dot > enableSourceDot ? Color.cyan : Color.black);
 
-        Vector3 pipeScale = new Vector3(1, 1, this.GetPipeScaleFromDot(dot));
-        foreach (GameObject pipe in this.pipes)
-        {
-            pipe.transform.localScale = pipeScale;
-        }
+        float pipeScale = this.GetPipeScaleFromDot(dot);
+        this.cone.transform.localScale = new Vector3(pipeScale, pipeScale, pipeScale);
 
         this.mainCanvas.gameObject.SetActive(dot > enableCanvasDot);
         for (int i = 0; i < 5; i++)
         {
             this.timerTexts[i].gameObject.SetActive(dot > enableTextDots[i]);
         }
-
-        this.statusText.SetActive(dot > enableStatusDot);
     }
 
     private float GetPipeScaleFromDot(float dot)

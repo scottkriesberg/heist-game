@@ -268,7 +268,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to PrisonBreakVR
+  m_text: Welcome to JailBreakVR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebd0a5a7c503c324cabb3813dd725ba5, type: 2}
   m_sharedMaterial: {fileID: -2624525857708784415, guid: ebd0a5a7c503c324cabb3813dd725ba5,
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 10.05
+  m_fontSize: 12
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_margin: {x: 1, y: 1, z: 1, w: 3}
   m_textInfo:
     textComponent: {fileID: 223722840}
-    characterCount: 24
+    characterCount: 22
     spriteCount: 0
     spaceCount: 2
     wordCount: 3
@@ -1374,6 +1374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawn: {fileID: 1632015841}
   alarmLights: []
+  hacker: {fileID: 0}
 --- !u!4 &726342443
 Transform:
   m_ObjectHideFlags: 0
@@ -1658,7 +1659,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to PrisonBreakVR
+  m_text: Welcome to JailBreakVR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebd0a5a7c503c324cabb3813dd725ba5, type: 2}
   m_sharedMaterial: {fileID: -2624525857708784415, guid: ebd0a5a7c503c324cabb3813dd725ba5,
@@ -1687,7 +1688,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 10.05
+  m_fontSize: 12
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1728,7 +1729,7 @@ MonoBehaviour:
   m_margin: {x: 1, y: 1, z: 1, w: 3}
   m_textInfo:
     textComponent: {fileID: 901188054}
-    characterCount: 24
+    characterCount: 22
     spriteCount: 0
     spaceCount: 2
     wordCount: 3
@@ -2230,7 +2231,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to PrisonBreakVR
+  m_text: Welcome to JailBreakVR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebd0a5a7c503c324cabb3813dd725ba5, type: 2}
   m_sharedMaterial: {fileID: -2624525857708784415, guid: ebd0a5a7c503c324cabb3813dd725ba5,
@@ -2259,7 +2260,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 10.05
+  m_fontSize: 12
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2300,7 +2301,7 @@ MonoBehaviour:
   m_margin: {x: 1, y: 1, z: 1, w: 3}
   m_textInfo:
     textComponent: {fileID: 1086965996}
-    characterCount: 24
+    characterCount: 22
     spriteCount: 0
     spaceCount: 2
     wordCount: 3
@@ -2891,7 +2892,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to PrisonBreakVR
+  m_text: Welcome to JailBreakVR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebd0a5a7c503c324cabb3813dd725ba5, type: 2}
   m_sharedMaterial: {fileID: -2624525857708784415, guid: ebd0a5a7c503c324cabb3813dd725ba5,
@@ -2920,7 +2921,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 10.05
+  m_fontSize: 12
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2961,7 +2962,7 @@ MonoBehaviour:
   m_margin: {x: 1, y: 1, z: 1, w: 3}
   m_textInfo:
     textComponent: {fileID: 1402579214}
-    characterCount: 24
+    characterCount: 22
     spriteCount: 0
     spaceCount: 2
     wordCount: 3
@@ -3039,6 +3040,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1404740202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5140495740264714902, guid: e469bdc5cce509042b86e2bf7bfc6615,
+    type: 3}
+  m_PrefabInstance: {fileID: 8407128438949852119}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1a49b9711ef4e3287190f0e21a4382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1476414556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3691,6 +3704,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2a1865d78442648a0ff885a2341006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1973779390 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6343257450365544722, guid: b4ab7d219b523b44c8276c0a1160d78e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6614981037480969291}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1a49b9711ef4e3287190f0e21a4382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1986832778 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1986832778, guid: b4ab7d219b523b44c8276c0a1160d78e,
@@ -3977,6 +4002,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1986832778, guid: b4ab7d219b523b44c8276c0a1160d78e, type: 3}
+      propertyPath: hacker
+      value: 
+      objectReference: {fileID: 1973779390}
     - target: {fileID: 1362980888662693101, guid: b4ab7d219b523b44c8276c0a1160d78e,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -4010,7 +4039,7 @@ PrefabInstance:
     - target: {fileID: 3504250830550022154, guid: b4ab7d219b523b44c8276c0a1160d78e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.01
       objectReference: {fileID: 0}
     - target: {fileID: 3504250830550022154, guid: b4ab7d219b523b44c8276c0a1160d78e,
         type: 3}
@@ -4072,6 +4101,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5501814955862388561, guid: b4ab7d219b523b44c8276c0a1160d78e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
+      objectReference: {fileID: 0}
     - target: {fileID: 7907606422054003404, guid: b4ab7d219b523b44c8276c0a1160d78e,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -4104,7 +4138,7 @@ PrefabInstance:
     - target: {fileID: 3454519543343140882, guid: e469bdc5cce509042b86e2bf7bfc6615,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 76.666565
+      value: 75.66656
       objectReference: {fileID: 0}
     - target: {fileID: 3454519543343140882, guid: e469bdc5cce509042b86e2bf7bfc6615,
         type: 3}
@@ -4151,6 +4185,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3936699188450415380, guid: e469bdc5cce509042b86e2bf7bfc6615,
+        type: 3}
+      propertyPath: hacker
+      value: 
+      objectReference: {fileID: 1404740202}
     - target: {fileID: 7758573362399334243, guid: e469bdc5cce509042b86e2bf7bfc6615,
         type: 3}
       propertyPath: m_LocalPosition.z

@@ -8,9 +8,12 @@ public class MyScene : MonoBehaviour
     protected PlayerSpawnPoint mySpawn;
     [SerializeField]
     protected Light[] alarmLights = new Light[0];
+    [SerializeField]
+    protected Hacker hacker;
 
     public virtual void OnLoad()
     {
+        if (this.hacker != null) CameraControl.instance = this.hacker.camControl;
         GameManager.Instance.RegisterSpawnPoint(this.mySpawn);
         GameManager.Instance.SetCameraMode(false);
         GameManager.Instance.SetPlayerHeadSmall(true);

@@ -10,6 +10,8 @@ public class Hacker : MonoBehaviour
     [SerializeField]
     private ScrollRect referenceScrollView;
 
+    public CameraControl camControl;
+
     enum Screen {MainMenu, Password, Win};
 	Screen currentScreen = Screen.MainMenu;
     string password = "A17";

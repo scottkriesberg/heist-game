@@ -8,8 +8,7 @@ public class ActionController : MonoBehaviour
 {
     public CharacterController character;
     public Transform playArea;
-
-    public PlayerUI playerUI;
+    public RootMotion.FinalIK.VRIK VRIK;
 
     public float gravityFactor = 9.81f;
     public SteamVR_Action_Vector2 inputWalk;
